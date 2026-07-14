@@ -1,0 +1,3 @@
+# Les modeles sont des binaires : git ne doit jamais y toucher aux fins de ligne,
+# sous peine de les corrompre au clonage (erreur "input stream corrupted").
+*.joblib binary

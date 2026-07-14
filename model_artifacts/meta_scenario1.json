@@ -1,0 +1,93 @@
+{
+  "scenario": "scenario1",
+  "classes": [
+    "Normal",
+    "Suspect",
+    "Fraude"
+  ],
+  "num_features": [
+    "Montant",
+    "montant_log",
+    "heure",
+    "jour_semaine",
+    "est_weekend",
+    "est_nuit",
+    "client_montant_moy_hist",
+    "client_montant_std_hist",
+    "client_nb_trans_hist",
+    "ecart_montant_client",
+    "temps_depuis_derniere_trans_min",
+    "trans_rapide_5min",
+    "changement_localisation"
+  ],
+  "cat_features": [
+    "Type de transaction",
+    "Status operation",
+    "Localisation"
+  ],
+  "categories": {
+    "Type de transaction": [
+      "ATM",
+      "Paiement en ligne",
+      "Paiement électronique"
+    ],
+    "Status operation": [
+      "Echoué",
+      "En attente",
+      "Validé"
+    ],
+    "Localisation": [
+      "Bakel",
+      "Bambey",
+      "Bignona",
+      "Bounkiling",
+      "Cap Skirring",
+      "Dagana",
+      "Dahra",
+      "Dakar",
+      "Diamniadio",
+      "Diourbel",
+      "Fatick",
+      "Foundiougne",
+      "Gossas",
+      "Goudiry",
+      "Goundam",
+      "Guinguinéo",
+      "Guédiawaye",
+      "Hann",
+      "Inconnu",
+      "Kaffrine",
+      "Kanel",
+      "Kaolack",
+      "Kebemer",
+      "Kolda",
+      "Kédougou",
+      "Linguère",
+      "Louga",
+      "Marie-Therese",
+      "Matam",
+      "Mbacké",
+      "Mbour",
+      "Nioro",
+      "Oussouye",
+      "Pikine",
+      "Podor",
+      "Ranérou",
+      "Richard Toll",
+      "Rufisque",
+      "Saint Louis",
+      "Saloum",
+      "Sédhiou",
+      "Tambacounda",
+      "Thiès",
+      "Tivaouane",
+      "Touba",
+      "Toubacouta",
+      "Vélingara",
+      "Ziguinchor"
+    ]
+  },
+  "client_montant_median_default": 49000.0,
+  "n_transactions": 5382,
+  "n_clients": 119
+}

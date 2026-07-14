@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Détection de Fraude Bancaire — Tableau de bord</title>
+<style>
+  :root {
+    color-scheme: light;
+    --plane: #f9f9f7;
+    --surface: #fcfcfb;
+    --ink: #0b0b0b;
+    --ink-2: #52514e;
+    --muted: #898781;
+    --grid: #e1e0d9;
+    --axis: #c3c2b7;
+    --ring: rgba(11, 11, 11, .10);
+    --accent: #2a78d6;
+    --series: #2a78d6;
+    --good: #0ca30c;
+    --warning: #fab219;
+    --critical: #d03b3b;
+    --good-wash: rgba(12, 163, 12, .10);
+    --warning-wash: rgba(250, 178, 25, .14);
+    --critical-wash: rgba(208, 59, 59, .10);
+    --shadow: 0 1px 2px rgba(11, 11, 11, .04), 0 8px 24px -12px rgba(11, 11, 11, .12);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:where(:not([data-theme="light"])) {
+      color-scheme: dark;
+      --plane: #0d0d0d;
+      --surface: #1a1a19;
+      --ink: #ffffff;
+      --ink-2: #c3c2b7;
+      --muted: #898781;
+      --grid: #2c2c2a;
+      --axis: #383835;
+      --ring: rgba(255, 255, 255, .10);
+      --accent: #3987e5;
+      --series: #3987e5;
+      --good-wash: rgba(12, 163, 12, .16);
+      --warning-wash: rgba(250, 178, 25, .16);
+      --critical-wash: rgba(208, 59, 59, .18);
+      --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 8px 24px -12px rgba(0, 0, 0, .6);
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --plane: #0d0d0d;
+    --surface: #1a1a19;
+    --ink: #ffffff;
+    --ink-2: #c3c2b7;
+    --muted: #898781;
+    --grid: #2c2c2a;
+    --axis: #383835;
+    --ring: rgba(255, 255, 255, .10);
+    --accent: #3987e5;
+    --series: #3987e5;
+    --good-wash: rgba(12, 163, 12, .16);
+    --warning-wash: rgba(250, 178, 25, .16);
+    --critical-wash: rgba(208, 59, 59, .18);
+    --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 8px 24px -12px rgba(0, 0, 0, .6);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 28px 24px 72px;
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    background: var(--plane);
+    color: var(--ink);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1180px; margin: 0 auto; }
+
+  /* ---------- En-tête ---------- */
+  header {
+    display: flex; flex-wrap: wrap; gap: 16px;
+    align-items: center; justify-content: space-between; margin-bottom: 22px;
+  }
+  h1 { font-size: 20px; margin: 0; letter-spacing: -.015em; font-weight: 650; }
+  .sub { color: var(--muted); font-size: 13px; margin: 3px 0 0; }
+  .head-tools { display: flex; align-items: center; gap: 10px; }
+  .chip {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--surface); border: 1px solid var(--ring);
+    border-radius: 999px; padding: 7px 13px; box-shadow: var(--shadow);
+  }
+  .chip input {
+    border: none; background: transparent; color: var(--ink);
+    font: inherit; font-size: 12px; width: 158px; padding: 0;
+  }
+  .chip input:focus { outline: none; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); flex: none; }
+  .dot.on { background: var(--good); box-shadow: 0 0 0 3px var(--good-wash); }
+  .dot.off { background: var(--critical); box-shadow: 0 0 0 3px var(--critical-wash); }
+  #apiStatus { font-size: 12px; color: var(--muted); white-space: nowrap; }
+  .icon-btn {
+    background: var(--surface); border: 1px solid var(--ring); color: var(--ink-2);
+    width: 36px; height: 36px; border-radius: 999px; cursor: pointer;
+    display: grid; place-items: center; box-shadow: var(--shadow); font-size: 15px;
+  }
+  .icon-btn:hover { color: var(--ink); }
+
+  /* ---------- Grille ---------- */
+  .grid { display: grid; grid-template-columns: 320px 1fr; gap: 20px; align-items: start; }
+  @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+
+  .card {
+    background: var(--surface); border: 1px solid var(--ring);
+    border-radius: 14px; padding: 20px; box-shadow: var(--shadow);
+  }
+  .card + .card { margin-top: 20px; }
+  h2 {
+    font-size: 11px; text-transform: uppercase; letter-spacing: .08em;
+    color: var(--muted); margin: 0 0 16px; font-weight: 700;
+  }
+
+  /* ---------- Formulaire ---------- */
+  .seg { display: flex; gap: 4px; background: var(--plane); border: 1px solid var(--ring); border-radius: 10px; padding: 4px; }
+  .seg button {
+    flex: 1; border: none; background: transparent; color: var(--muted);
+    font: inherit; font-size: 12px; font-weight: 600; padding: 7px 4px;
+    border-radius: 7px; cursor: pointer;
+  }
+  .seg button[aria-pressed="true"] { background: var(--surface); color: var(--ink); box-shadow: var(--shadow); }
+
+  label { display: block; margin-top: 15px; font-size: 11.5px; font-weight: 600; color: var(--muted); letter-spacing: .01em; }
+  input, select {
+    width: 100%; padding: 10px 11px; margin-top: 6px;
+    border: 1px solid var(--ring); border-radius: 9px;
+    background: var(--plane); color: var(--ink); font: inherit; font-size: 14px;
+  }
+  input:focus, select:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+
+  .presets { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px; }
+  .preset {
+    padding: 6px 11px; font-size: 12px; font-weight: 500; font-family: inherit;
+    background: var(--plane); color: var(--ink-2);
+    border: 1px solid var(--ring); border-radius: 999px; cursor: pointer;
+  }
+  .preset:hover { border-color: var(--accent); color: var(--accent); }
+
+  .btn-main {
+    width: 100%; margin-top: 22px; padding: 12px;
+    background: var(--accent); color: #fff; border: none; border-radius: 10px;
+    font: inherit; font-size: 14px; font-weight: 650; cursor: pointer;
+  }
+  .btn-main:hover:not(:disabled) { filter: brightness(1.08); }
+  .btn-main:disabled { opacity: .55; cursor: progress; }
+  .hint { font-size: 11.5px; color: var(--muted); margin-top: 14px; }
+
+  /* ---------- Tuiles ---------- */
+  .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 20px; }
+  .tile {
+    background: var(--surface); border: 1px solid var(--ring);
+    border-radius: 12px; padding: 14px 16px; box-shadow: var(--shadow);
+  }
+  .tile .k { font-size: 11px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .06em; }
+  .tile .v { font-size: 22px; font-weight: 650; margin-top: 5px; letter-spacing: -.02em; }
+  .tile .n { font-size: 11.5px; color: var(--muted); margin-top: 2px; }
+
+  /* ---------- Verdict + jauge ---------- */
+  .verdict-row { display: flex; gap: 26px; align-items: center; flex-wrap: wrap; }
+  .gauge-wrap { position: relative; width: 168px; height: 168px; flex: none; }
+  .gauge-wrap svg { transform: rotate(-90deg); }
+  .gauge-center {
+    position: absolute; inset: 0; display: grid; place-content: center; text-align: center;
+  }
+  .gauge-center .pct { font-size: 30px; font-weight: 650; letter-spacing: -.03em; line-height: 1.1; }
+  .gauge-center .cap { font-size: 10.5px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; margin-top: 2px; }
+  .verdict-side { flex: 1; min-width: 210px; }
+  .verdict-class { font-size: 27px; font-weight: 650; letter-spacing: -.025em; }
+  .badges { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 4px 10px; border-radius: 999px; font-size: 11.5px; font-weight: 650;
+  }
+
+  .probs { margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--grid); display: grid; gap: 10px; }
+  .prob { display: grid; grid-template-columns: 76px 1fr 52px; gap: 12px; align-items: center; font-size: 13px; }
+  .track { height: 8px; background: var(--plane); border: 1px solid var(--ring); border-radius: 999px; overflow: hidden; }
+  .track i { display: block; height: 100%; border-radius: 999px; background: var(--axis); transition: width .5s cubic-bezier(.3,.8,.4,1); }
+  .track.lead i { background: var(--series); }
+  .prob .val { text-align: right; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+
+  /* ---------- Explication ---------- */
+  .why { margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--grid); }
+  .why ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+  .why li { display: flex; gap: 10px; font-size: 13px; align-items: flex-start; color: var(--ink-2); }
+  .why .ico { flex: none; width: 15px; text-align: center; font-size: 12px; line-height: 1.5; }
+  .flag { color: var(--critical); }
+  .calm { color: var(--muted); }
+
+  details { margin-top: 16px; }
+  summary { font-size: 12px; color: var(--muted); cursor: pointer; }
+  summary:hover { color: var(--accent); }
+  .feats { margin-top: 12px; display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 6px; }
+  .feat { display: flex; justify-content: space-between; gap: 10px; font-size: 12px; padding: 6px 9px; background: var(--plane); border-radius: 7px; color: var(--ink-2); }
+  .feat b { color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
+
+  .empty { display: grid; place-items: center; min-height: 240px; color: var(--muted); font-size: 14px; text-align: center; }
+  .error { background: var(--critical-wash); color: var(--critical); padding: 15px; border-radius: 10px; font-size: 13px; }
+
+  /* ---------- Graphique ---------- */
+  #chartCard { display: none; }
+  .chart-box { position: relative; }
+  .tip {
+    position: absolute; pointer-events: none; opacity: 0;
+    background: var(--surface); border: 1px solid var(--ring);
+    box-shadow: var(--shadow); border-radius: 9px; padding: 9px 11px;
+    font-size: 12px; white-space: nowrap; transition: opacity .12s; z-index: 5;
+  }
+  .tip b { font-variant-numeric: tabular-nums; }
+  .tip .t-sub { color: var(--muted); font-size: 11px; margin-top: 2px; }
+
+  /* ---------- Historique ---------- */
+  .table-box { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th {
+    text-align: left; font-size: 10.5px; text-transform: uppercase; letter-spacing: .06em;
+    color: var(--muted); font-weight: 700; padding: 0 12px 10px; white-space: nowrap;
+  }
+  td { padding: 10px 12px; border-top: 1px solid var(--grid); white-space: nowrap; color: var(--ink-2); }
+  td.strong { color: var(--ink); font-weight: 600; }
+  .num { text-align: right; font-variant-numeric: tabular-nums; }
+  .pill { display: inline-flex; align-items: center; gap: 5px; padding: 3px 9px; border-radius: 999px; font-size: 11.5px; font-weight: 650; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div>
+      <h1>Détection de Fraude Bancaire</h1>
+      <p class="sub">Scoring de transactions en temps réel — XGBoost</p>
+    </div>
+    <div class="head-tools">
+      <div class="chip">
+        <span class="dot" id="apiDot"></span>
+        <input id="apiBase" value="http://localhost:8000" aria-label="URL de l'API">
+        <span id="apiStatus">vérification…</span>
+      </div>
+      <button class="icon-btn" id="themeBtn" title="Basculer clair / sombre" aria-label="Basculer le thème">◐</button>
+    </div>
+  </header>
+
+  <div class="grid">
+
+    <!-- ================= Formulaire ================= -->
+    <form class="card" id="txForm">
+      <h2>Transaction</h2>
+
+      <div class="seg" role="group" aria-label="Choix du modèle">
+        <button type="button" data-sc="scenario2" aria-pressed="true">Binaire</button>
+        <button type="button" data-sc="scenario1" aria-pressed="false">3 classes</button>
+      </div>
+
+      <label for="id_client">Identifiant client</label>
+      <input id="id_client" value="C002" required>
+
+      <label for="type_transaction">Type de transaction</label>
+      <select id="type_transaction"></select>
+
+      <label for="status_operation">Statut de l'opération</label>
+      <select id="status_operation"></select>
+
+      <label for="localisation">Localisation</label>
+      <select id="localisation"></select>
+
+      <label for="date">Date et heure</label>
+      <input id="date" type="datetime-local" required>
+
+      <label for="montant">Montant (FCFA)</label>
+      <input id="montant" type="number" min="1" step="1" value="50000" required>
+
+      <div class="presets">
+        <button type="button" class="preset" data-preset="normale">Achat courant</button>
+        <button type="button" class="preset" data-preset="nuit">Retrait nocturne</button>
+        <button type="button" class="preset" data-preset="fraude">Scénario fraude</button>
+      </div>
+
+      <button type="submit" class="btn-main" id="submitBtn">Analyser la transaction</button>
+
+      <p class="hint">
+        Le modèle mémorise le comportement de chaque client. Enchaînez plusieurs
+        transactions sur le même identifiant pour voir le risque évoluer, ou changez
+        d'identifiant pour repartir d'un historique vierge.
+      </p>
+    </form>
+
+    <!-- ================= Résultats ================= -->
+    <div>
+      <div class="tiles" id="tiles" hidden>
+        <div class="tile"><div class="k">Verdict</div><div class="v" id="tVerdict">—</div><div class="n" id="tRisk">—</div></div>
+        <div class="tile"><div class="k">Écart au comportement</div><div class="v" id="tEcart">—</div><div class="n">écarts-types vs habitude</div></div>
+        <div class="tile"><div class="k">Historique client</div><div class="v" id="tHist">—</div><div class="n" id="tMoy">—</div></div>
+        <div class="tile"><div class="k">Signaux d'alerte</div><div class="v" id="tFlags">—</div><div class="n">critères déclenchés</div></div>
+      </div>
+
+      <div class="card" id="resultCard">
+        <h2>Analyse</h2>
+        <div class="empty" id="resultBody">Renseignez une transaction et lancez l'analyse.</div>
+      </div>
+
+      <div class="card" id="chartCard">
+        <h2>Évolution du risque — client <span id="chartClient"></span></h2>
+        <div class="chart-box">
+          <svg id="chart" width="100%" height="188" role="img" aria-label="Probabilité de fraude au fil des transactions"></svg>
+          <div class="tip" id="tip"></div>
+        </div>
+      </div>
+
+      <div class="card" id="historyCard" hidden>
+        <h2>Historique du client <span id="historyClient"></span></h2>
+        <div class="table-box">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th><th>Date</th><th>Type</th><th>Ville</th>
+                <th class="num">Montant</th><th>Verdict</th><th class="num">Prob. fraude</th>
+              </tr>
+            </thead>
+            <tbody id="historyBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const nf = new Intl.NumberFormat('fr-FR');
+const apiBase = () => $('apiBase').value.trim().replace(/\/+$/, '');
+
+let scenario = 'scenario2';
+const historique = {};
+const cle = () => `${scenario}|${$('id_client').value}`;
+
+// Palette de statut (validée) : jamais portée par la couleur seule — toujours
+// accompagnée d'un libellé et d'une icône.
+const STATUT = {
+  'FAIBLE': { col: 'var(--good)',     wash: 'var(--good-wash)',     ico: '✓' },
+  'MOYEN':  { col: 'var(--warning)',  wash: 'var(--warning-wash)',  ico: '!' },
+  'ÉLEVÉ':  { col: 'var(--critical)', wash: 'var(--critical-wash)', ico: '▲' },
+};
+const st = niveau => STATUT[niveau] || STATUT['FAIBLE'];
+
+// ---------------------------------------------------------------------------
+// Thème
+// ---------------------------------------------------------------------------
+$('themeBtn').addEventListener('click', () => {
+  const sombreActuel = matchMedia('(prefers-color-scheme: dark)').matches;
+  const actuel = document.documentElement.dataset.theme || (sombreActuel ? 'dark' : 'light');
+  document.documentElement.dataset.theme = actuel === 'dark' ? 'light' : 'dark';
+  if (historique[cle()]?.length) dessinerCourbe();
+});
+
+// ---------------------------------------------------------------------------
+// API
+// ---------------------------------------------------------------------------
+async function verifierApi() {
+  $('apiDot').className = 'dot';
+  $('apiStatus').textContent = 'vérification…';
+  try {
+    const r = await fetch(`${apiBase()}/health`);
+    if (!r.ok) throw new Error();
+    const d = await r.json();
+    $('apiDot').className = 'dot on';
+    $('apiStatus').textContent = `${d.modeles_charges.length} modèles`;
+  } catch {
+    $('apiDot').className = 'dot off';
+    $('apiStatus').textContent = 'API injoignable';
+  }
+}
+
+// Les menus sont alimentés par /meta : seules les valeurs connues du modèle sont
+// proposées. Une ville hors liste serait convertie en "Inconnu" par l'API,
+// faussant silencieusement la prédiction.
+async function chargerMeta() {
+  try {
+    const r = await fetch(`${apiBase()}/meta/${scenario}`);
+    if (!r.ok) throw new Error();
+    const m = await r.json();
+    remplir('type_transaction', m.categories['Type de transaction'], 'ATM');
+    remplir('status_operation', m.categories['Status operation'], 'Validé');
+    remplir('localisation', m.categories['Localisation'], 'Dakar');
+  } catch {
+    remplir('type_transaction', ['ATM', 'Paiement en ligne', 'Paiement électronique'], 'ATM');
+    remplir('status_operation', ['Validé', 'Echoué', 'En attente'], 'Validé');
+    remplir('localisation', ['Dakar', 'Thiès', 'Saint Louis'], 'Dakar');
+  }
+}
+
+function remplir(id, valeurs, defaut) {
+  const sel = $(id), avant = sel.value;
+  sel.innerHTML = '';
+  for (const v of valeurs) {
+    const o = document.createElement('option');
+    o.value = o.textContent = v;
+    sel.appendChild(o);
+  }
+  sel.value = valeurs.includes(avant) ? avant : defaut;
+}
+
+// ---------------------------------------------------------------------------
+// Explication du verdict, reconstruite depuis features_utilisees
+// ---------------------------------------------------------------------------
+function expliquer(f) {
+  const r = [];
+  const alerte = t => r.push({ grave: true, t });
+  const info = t => r.push({ grave: false, t });
+
+  if (f.client_nb_trans_hist === 0) {
+    info("Premier passage de ce client : aucun historique, le modèle compare au montant médian global.");
+  } else {
+    const e = f.ecart_montant_client;
+    if (e >= 2) alerte(`Montant très au-dessus des habitudes du client (+${e.toFixed(1)} écarts-types).`);
+    else if (e <= -2) info(`Montant inhabituellement bas pour ce client (${e.toFixed(1)} écarts-types).`);
+    else info(`Montant cohérent avec ses habitudes (moyenne ${nf.format(Math.round(f.client_montant_moy_hist))} FCFA sur ${f.client_nb_trans_hist} transaction${f.client_nb_trans_hist > 1 ? 's' : ''}).`);
+  }
+  if (f.est_nuit) alerte("Transaction nocturne (entre 22 h et 5 h).");
+  if (f.changement_localisation) alerte("Changement de ville depuis la transaction précédente.");
+  if (f.trans_rapide_5min) alerte("Moins de 5 minutes après la transaction précédente.");
+  if (f['Status operation'] === 'Echoué') alerte("Opération échouée.");
+  if (f.est_weekend && !f.est_nuit) info("Transaction le week-end.");
+  if (r.every(x => !x.grave)) info("Aucun signal d'alerte comportemental détecté.");
+  return r;
+}
+
+const LIB = {
+  Montant: 'Montant', heure: 'Heure',
+  client_montant_moy_hist: 'Moyenne historique',
+  client_montant_std_hist: 'Écart-type historique',
+  client_nb_trans_hist: 'Transactions connues',
+  ecart_montant_client: 'Écart au comportement (σ)',
+  temps_depuis_derniere_trans_min: 'Depuis la précédente (min)',
+  est_nuit: 'Nuit', est_weekend: 'Week-end',
+  changement_localisation: 'Changement de ville',
+  trans_rapide_5min: 'Moins de 5 min',
+};
+const BOOLS = ['est_nuit', 'est_weekend', 'changement_localisation', 'trans_rapide_5min'];
+
+function fmt(k, v) {
+  if (BOOLS.includes(k)) return v ? 'oui' : 'non';
+  if (k === 'temps_depuis_derniere_trans_min' && v >= 999999) return '—';
+  if (typeof v === 'number') return Number.isInteger(v) ? nf.format(v) : nf.format(Math.round(v * 100) / 100);
+  return v;
+}
+
+// ---------------------------------------------------------------------------
+// Affichage
+// ---------------------------------------------------------------------------
+function afficher(data) {
+  const f = data.features_utilisees;
+  const p = data.probabilites['Fraude'] ?? 0;
+  const s = st(data.niveau_risque);
+  const raisons = expliquer(f);
+  const nFlags = raisons.filter(r => r.grave).length;
+
+  // Tuiles
+  $('tiles').hidden = false;
+  $('tVerdict').textContent = data.classe_predite;
+  $('tVerdict').style.color = s.col;
+  $('tRisk').textContent = `risque ${data.niveau_risque}`;
+  $('tEcart').textContent = (f.ecart_montant_client >= 0 ? '+' : '') + f.ecart_montant_client.toFixed(1) + ' σ';
+  $('tHist').textContent = f.client_nb_trans_hist;
+  $('tMoy').textContent = f.client_nb_trans_hist
+    ? `moyenne ${nf.format(Math.round(f.client_montant_moy_hist))} FCFA`
+    : 'aucun historique';
+  $('tFlags').textContent = nFlags;
+  $('tFlags').style.color = nFlags ? 'var(--critical)' : 'var(--good)';
+
+  // Jauge radiale : arc de 0 à 100 % de probabilité de fraude
+  const R = 68, C = 2 * Math.PI * R;
+  const probs = Object.entries(data.probabilites).map(([c, v]) => {
+    const lead = c === data.classe_predite;
+    return `<div class="prob">
+      <span>${c}</span>
+      <span class="track ${lead ? 'lead' : ''}"><i style="width:${(v * 100).toFixed(1)}%"></i></span>
+      <span class="val">${(v * 100).toFixed(1)} %</span>
+    </div>`;
+  }).join('');
+
+  const listeRaisons = raisons.map(r => `
+    <li><span class="ico ${r.grave ? 'flag' : 'calm'}">${r.grave ? '▲' : '•'}</span><span>${r.t}</span></li>`).join('');
+
+  const feats = Object.keys(LIB).map(k =>
+    `<div class="feat"><span>${LIB[k]}</span><b>${fmt(k, f[k])}</b></div>`).join('');
+
+  $('resultBody').className = '';
+  $('resultBody').innerHTML = `
+    <div class="verdict-row">
+      <div class="gauge-wrap">
+        <svg width="168" height="168" aria-hidden="true">
+          <circle cx="84" cy="84" r="${R}" fill="none" stroke="var(--grid)" stroke-width="12"/>
+          <circle cx="84" cy="84" r="${R}" fill="none" stroke="${s.col}" stroke-width="12"
+                  stroke-linecap="round" stroke-dasharray="${C}"
+                  stroke-dashoffset="${C * (1 - p)}"
+                  style="transition: stroke-dashoffset .6s cubic-bezier(.3,.8,.4,1)"/>
+        </svg>
+        <div class="gauge-center">
+          <div class="pct" style="color:${s.col}">${(p * 100).toFixed(1)}<span style="font-size:16px">%</span></div>
+          <div class="cap">prob. fraude</div>
+        </div>
+      </div>
+      <div class="verdict-side">
+        <div class="verdict-class" style="color:${s.col}">${data.classe_predite}</div>
+        <div class="badges">
+          <span class="badge" style="background:${s.wash};color:${s.col}">${s.ico} Risque ${data.niveau_risque}</span>
+          ${data.alerte ? `<span class="badge" style="background:var(--critical-wash);color:var(--critical)">⚑ Alerte</span>` : ''}
+        </div>
+        <div class="probs">${probs}</div>
+      </div>
+    </div>
+
+    <div class="why">
+      <h2>Pourquoi ce verdict</h2>
+      <ul>${listeRaisons}</ul>
+      <details>
+        <summary>Voir les variables transmises au modèle</summary>
+        <div class="feats">${feats}</div>
+      </details>
+    </div>`;
+}
+
+// ---------------------------------------------------------------------------
+// Courbe d'évolution du risque (une seule série -> pas de légende ;
+// les deux seuils de décision de l'API sont matérialisés en repères)
+// ---------------------------------------------------------------------------
+function dessinerCourbe() {
+  const pts = historique[cle()] || [];
+  $('chartCard').style.display = pts.length >= 2 ? 'block' : 'none';
+  if (pts.length < 2) return;
+  $('chartClient').textContent = $('id_client').value;
+
+  const svg = $('chart');
+  const W = svg.clientWidth || 640, H = 188;
+  const M = { t: 14, r: 16, b: 26, l: 40 };
+  const iw = W - M.l - M.r, ih = H - M.t - M.b;
+  const x = i => M.l + (pts.length === 1 ? iw / 2 : (i / (pts.length - 1)) * iw);
+  const y = v => M.t + ih - v * ih;
+  const val = e => e.data.probabilites['Fraude'] ?? 0;
+
+  const seuil = (v, txt) => `
+    <line x1="${M.l}" x2="${W - M.r}" y1="${y(v)}" y2="${y(v)}"
+          stroke="var(--axis)" stroke-width="1" stroke-dasharray="3 3"/>
+    <text x="${M.l - 8}" y="${y(v) + 4}" text-anchor="end"
+          font-size="10" fill="var(--muted)">${txt}</text>`;
+
+  const ligne = pts.map((e, i) => `${x(i)},${y(val(e))}`).join(' ');
+  const marks = pts.map((e, i) => {
+    const c = st(e.data.niveau_risque).col;
+    return `<circle cx="${x(i)}" cy="${y(val(e))}" r="5" fill="${c}"
+                    stroke="var(--surface)" stroke-width="2" data-i="${i}"/>`;
+  }).join('');
+  const ticks = pts.map((e, i) =>
+    `<text x="${x(i)}" y="${H - 8}" text-anchor="middle" font-size="10" fill="var(--muted)">${i + 1}</text>`).join('');
+
+  svg.innerHTML = `
+    <line x1="${M.l}" x2="${W - M.r}" y1="${y(0)}" y2="${y(0)}" stroke="var(--axis)" stroke-width="1"/>
+    <text x="${M.l - 8}" y="${y(0) + 4}" text-anchor="end" font-size="10" fill="var(--muted)">0 %</text>
+    ${seuil(0.3, '30 %')}
+    ${seuil(0.7, '70 %')}
+    <polyline points="${ligne}" fill="none" stroke="var(--series)" stroke-width="2"
+              stroke-linejoin="round" stroke-linecap="round"/>
+    ${marks}
+    ${ticks}
+    <rect x="0" y="0" width="${W}" height="${H}" fill="transparent" id="hit"/>`;
+
+  // Survol : le point le plus proche horizontalement
+  const tip = $('tip');
+  svg.onmousemove = ev => {
+    const bx = svg.getBoundingClientRect();
+    const mx = ev.clientX - bx.left;
+    let best = 0, dmin = Infinity;
+    pts.forEach((_, i) => { const d = Math.abs(x(i) - mx); if (d < dmin) { dmin = d; best = i; } });
+    const e = pts[best], v = val(e);
+    tip.innerHTML = `<b>${(v * 100).toFixed(1)} %</b> — ${e.data.classe_predite}
+      <div class="t-sub">Transaction ${best + 1} · ${nf.format(e.payload.montant)} FCFA</div>`;
+    tip.style.opacity = 1;
+    const tw = tip.offsetWidth;
+    tip.style.left = Math.min(Math.max(x(best) - tw / 2, 0), W - tw) + 'px';
+    tip.style.top = Math.max(y(v) - 56, 0) + 'px';
+  };
+  svg.onmouseleave = () => { tip.style.opacity = 0; };
+}
+
+// ---------------------------------------------------------------------------
+// Historique
+// ---------------------------------------------------------------------------
+function ajouter(payload, data) {
+  (historique[cle()] ||= []).push({ payload, data });
+  dessinerTable();
+  dessinerCourbe();
+}
+
+function dessinerTable() {
+  const pts = historique[cle()];
+  if (!pts?.length) { $('historyCard').hidden = true; return; }
+  $('historyCard').hidden = false;
+  $('historyClient').textContent = $('id_client').value;
+  $('historyBody').innerHTML = pts.map((e, i) => {
+    const p = e.data.probabilites['Fraude'] ?? 0;
+    const s = st(e.data.niveau_risque);
+    const d = new Date(e.payload.date).toLocaleString('fr-FR',
+      { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
+    return `<tr>
+      <td>${i + 1}</td>
+      <td>${d}</td>
+      <td>${e.payload.type_transaction}</td>
+      <td>${e.payload.localisation}</td>
+      <td class="num strong">${nf.format(e.payload.montant)}</td>
+      <td><span class="pill" style="background:${s.wash};color:${s.col}">${s.ico} ${e.data.classe_predite}</span></td>
+      <td class="num strong">${(p * 100).toFixed(1)} %</td>
+    </tr>`;
+  }).join('');
+}
+
+function reinitialiser() {
+  dessinerTable();
+  dessinerCourbe();
+  const pts = historique[cle()];
+  if (pts?.length) { afficher(pts[pts.length - 1].data); return; }
+  $('tiles').hidden = true;
+  $('resultBody').className = 'empty';
+  $('resultBody').textContent = "Renseignez une transaction et lancez l'analyse.";
+}
+
+// ---------------------------------------------------------------------------
+// Scénarios de démonstration
+// ---------------------------------------------------------------------------
+const PRESETS = {
+  normale: { type: 'Paiement en ligne', statut: 'Validé', ville: 'Dakar', montant: 50000, heure: 14 },
+  nuit:    { type: 'ATM', statut: 'Validé', ville: 'Dakar', montant: 300000, heure: 23 },
+  fraude:  { type: 'Paiement électronique', statut: 'Echoué', ville: 'Kolda', montant: 2500000, heure: 3 },
+};
+const dateLocale = d => {
+  const p = n => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}T${p(d.getHours())}:${p(d.getMinutes())}`;
+};
+
+// ---------------------------------------------------------------------------
+// Envoi
+// ---------------------------------------------------------------------------
+$('txForm').addEventListener('submit', async ev => {
+  ev.preventDefault();
+  const btn = $('submitBtn');
+  btn.disabled = true;
+  btn.textContent = 'Analyse en cours…';
+
+  const payload = {
+    id_client: $('id_client').value,
+    type_transaction: $('type_transaction').value,
+    status_operation: $('status_operation').value,
+    localisation: $('localisation').value,
+    date: $('date').value + ':00',
+    montant: parseFloat($('montant').value),
+  };
+
+  try {
+    const res = await fetch(`${apiBase()}/predict/${scenario}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    if (!res.ok) throw new Error(`${res.status} — ${await res.text()}`);
+    const data = await res.json();
+    afficher(data);
+    ajouter(payload, data);
+  } catch (err) {
+    $('tiles').hidden = true;
+    $('resultBody').className = '';
+    $('resultBody').innerHTML = `<div class="error">
+      <b>Impossible d'analyser la transaction.</b><br>${err.message}<br><br>
+      Vérifiez que l'API tourne et que l'URL indiquée en haut à droite est correcte.
+    </div>`;
+    verifierApi();
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Analyser la transaction';
+  }
+});
+
+document.querySelectorAll('.seg button').forEach(b => b.addEventListener('click', () => {
+  document.querySelectorAll('.seg button').forEach(x => x.setAttribute('aria-pressed', x === b));
+  scenario = b.dataset.sc;
+  chargerMeta();
+  reinitialiser();
+}));
+
+// Un preregage doit toujours dater la transaction APRES la derniere du meme
+// client : sinon le temps ecoule devient nul (faux signal "moins de 5 min") ou
+// negatif — une valeur que le modele n'a jamais vue a l'entrainement.
+function prochaineDate(heure) {
+  const pts = historique[cle()];
+  const base = pts?.length ? new Date(pts[pts.length - 1].payload.date) : new Date();
+  const d = new Date(base);
+  d.setHours(heure, 30, 0, 0);
+  if (d <= base) d.setDate(d.getDate() + 1);
+  return d;
+}
+
+document.querySelectorAll('.preset').forEach(b => b.addEventListener('click', () => {
+  const p = PRESETS[b.dataset.preset];
+  $('type_transaction').value = p.type;
+  $('status_operation').value = p.statut;
+  $('localisation').value = p.ville;
+  $('montant').value = p.montant;
+  $('date').value = dateLocale(prochaineDate(p.heure));
+}));
+
+$('id_client').addEventListener('change', reinitialiser);
+$('apiBase').addEventListener('change', () => { verifierApi(); chargerMeta(); });
+addEventListener('resize', () => { if (historique[cle()]?.length >= 2) dessinerCourbe(); });
+
+$('date').value = dateLocale(new Date());
+verifierApi();
+chargerMeta();
+</script>
+</body>
+</html>

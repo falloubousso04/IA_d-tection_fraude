@@ -1,0 +1,13 @@
+# Donnees bancaires : ne sont pas diffusees (identifiants clients, numeros de compte)
+*.csv
+
+# Environnement virtuel Python
+.venv/
+venv/
+
+# Caches Python
+__pycache__/
+*.pyc
+
+# Sauvegardes locales
+model_artifacts_original/

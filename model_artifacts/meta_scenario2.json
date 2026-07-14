@@ -1,0 +1,67 @@
+{
+  "scenario": "scenario2",
+  "classes": [
+    "Normal",
+    "Fraude"
+  ],
+  "num_features": [
+    "Montant",
+    "montant_log",
+    "heure",
+    "jour_semaine",
+    "est_weekend",
+    "est_nuit",
+    "client_montant_moy_hist",
+    "client_montant_std_hist",
+    "client_nb_trans_hist",
+    "ecart_montant_client",
+    "temps_depuis_derniere_trans_min",
+    "trans_rapide_5min",
+    "changement_localisation"
+  ],
+  "cat_features": [
+    "Type de transaction",
+    "Status operation",
+    "Localisation"
+  ],
+  "categories": {
+    "Type de transaction": [
+      "ATM",
+      "Paiement en ligne",
+      "Paiement électronique"
+    ],
+    "Status operation": [
+      "Echoué",
+      "En attente",
+      "Validé"
+    ],
+    "Localisation": [
+      "Cap Skirring",
+      "Dakar",
+      "Diourbel",
+      "Fatick",
+      "Kaolack",
+      "Kolda",
+      "Kédougou",
+      "Louga",
+      "Matam",
+      "Mbour",
+      "Paris",
+      "Podor",
+      "Richard Toll",
+      "Rufisque",
+      "Saint Louis",
+      "Saly",
+      "Sédhiou",
+      "Tambacounda",
+      "Thies",
+      "Thiès",
+      "Tivaouane",
+      "Touba",
+      "Ziguinchor"
+    ]
+  },
+  "client_montant_median_default": 200000.0,
+  "n_transactions": 7668,
+  "n_clients": 113
+}
