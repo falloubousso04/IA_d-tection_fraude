@@ -25,6 +25,7 @@ import joblib
 import pandas as pd
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 from pydantic import BaseModel, Field
 
 sys.path.insert(0, str(Path(__file__).parent))
@@ -243,9 +244,18 @@ def predict_generic(scenario: str, tx: Transaction):
     return score(scenario, tx)
 
 
-@app.get("/")
+@app.get("/", include_in_schema=False)
 def root():
+    """Sert le tableau de bord a la racine.
+
+    L'interface et l'API partagent ainsi la meme origine : une seule URL a
+    diffuser, et aucune configuration manuelle cote navigateur.
+    """
+    page = Path(__file__).parent / "demo.html"
+    if page.exists():
+        return FileResponse(page)
     return {
         "message": "API de détection de fraude bancaire — voir /docs pour la documentation interactive",
-        "endpoints": ["/health", "/predict/scenario1", "/predict/scenario2", "/meta/{scenario}"],
+        "endpoints": ["/health", "/predict/scenario1", "/predict/scenario2",
+                      "/meta/{scenario}", "/rapport/{scenario}"],
     }

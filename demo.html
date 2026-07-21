@@ -341,6 +341,10 @@ const nf = new Intl.NumberFormat('fr-FR');
 const pc = (v, d = 1) => (v * 100).toFixed(d).replace('.', ',') + ' %';
 const apiBase = () => $('apiBase').value.trim().replace(/\/+$/, '');
 
+// Servie par l'API (en ligne), la page interroge sa propre origine ; ouverte en
+// fichier local (file://), elle vise le serveur de developpement.
+$('apiBase').value = location.protocol.startsWith('http') ? location.origin : 'http://localhost:8000';
+
 let scenario = 'scenario2';
 let rapport = null;
 const historique = {};
