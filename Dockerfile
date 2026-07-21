@@ -5,7 +5,9 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY app.py model_lib.py demo.html ./
+# train_from_raw.py est requis a l'execution : l'analyse par lot reutilise ses
+# fonctions de construction des features.
+COPY app.py model_lib.py train_from_raw.py demo.html ./
 COPY model_artifacts ./model_artifacts
 
 EXPOSE 8000

@@ -46,6 +46,7 @@ fraude_deploy/
 ├── app.py                  # API FastAPI (scoring temps réel)
 ├── model_lib.py            # classe FraudModel, partagée entraînement / API
 ├── train_from_raw.py       # pipeline complet : nettoyage → features → entraînement → évaluation
+│                           #   (ses fonctions sont réutilisées par l'API pour l'analyse par lot)
 ├── demo.html               # tableau de bord web
 ├── model_artifacts/        # modèles entraînés (.joblib) + métadonnées (.json)
 ├── requirements.txt
@@ -99,6 +100,32 @@ Réponse :
 Comme le modèle est à état, envoyer **plusieurs transactions pour le même
 `id_client`** fait évoluer le risque : les premières servent à apprendre son
 comportement habituel, et une transaction atypique se détache ensuite nettement.
+
+## Analyser un fichier CSV entier
+
+L'onglet **Import CSV** du tableau de bord accepte un fichier de transactions et
+score toutes les lignes en une passe. En ligne de commande :
+
+```bash
+curl -X POST http://localhost:8000/predict/batch/scenario2 \
+  -F "file=@mes_transactions.csv"
+```
+
+Colonnes attendues (séparateur `;`, `,` ou tabulation, détecté automatiquement) :
+`ID Clients`, `Date`, `Type de transaction`, `Status operation`, `Localisation`,
+`Montant`. Une colonne `Target` facultative déclenche en plus une évaluation des
+prédictions contre la vérité terrain (exactitude, matrice de confusion,
+précision et rappel par classe).
+
+Les variables comportementales sont reconstruites **au sein du fichier**, client
+par client et dans l'ordre chronologique, en réutilisant la fonction
+`construire_features` du script d'entraînement — entraînement et inférence ne
+peuvent donc pas diverger.
+
+> Attention à l'interprétation : analyser le fichier ayant servi à entraîner le
+> modèle donne des scores proches de 100 %, puisqu'il a déjà vu ces lignes. Seule
+> l'évaluation sur des transactions inconnues (onglet **Modèle**) est
+> significative.
 
 ## Déployer avec Docker
 

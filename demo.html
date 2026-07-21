@@ -341,6 +341,57 @@
   }
   .alert .ico { width: 17px; height: 17px; flex: none; margin-top: 1px; }
 
+  /* ═══════════ Import CSV ═══════════ */
+  .drop {
+    border: 2px dashed color-mix(in srgb, var(--accent) 34%, var(--line));
+    border-radius: var(--r-md); padding: 40px 24px; text-align: center;
+    background: radial-gradient(120% 120% at 50% 0%, var(--accent-soft), transparent 68%);
+    cursor: pointer; transition: .2s;
+  }
+  .drop:hover, .drop.over { border-color: var(--accent); background: var(--accent-soft); }
+  .drop .up-ico {
+    width: 52px; height: 52px; border-radius: 15px; margin: 0 auto 14px;
+    display: grid; place-items: center; color: #fff;
+    background: linear-gradient(140deg, var(--accent), var(--accent-2));
+    box-shadow: 0 6px 18px -6px color-mix(in srgb, var(--accent) 80%, transparent);
+  }
+  .drop .up-ico .ico { width: 25px; height: 25px; }
+  .drop b { display: block; font-size: 15px; font-weight: 650; letter-spacing: -.01em; }
+  .drop span { display: block; font-size: 12.5px; color: var(--muted); margin-top: 5px; }
+  .filebox {
+    display: flex; align-items: center; gap: 12px; margin-top: 16px;
+    padding: 13px 15px; background: var(--surface-2); border: 1px solid var(--line);
+    border-radius: var(--r-sm);
+  }
+  .filebox .fico { width: 34px; height: 34px; border-radius: 9px; flex: none; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent); }
+  .filebox .fico .ico { width: 17px; height: 17px; }
+  .filebox .fmeta { flex: 1; min-width: 0; }
+  .filebox .fmeta b { display: block; font-size: 13px; font-weight: 620; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .filebox .fmeta span { font-size: 11.5px; color: var(--muted); }
+  .cols { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+  .col-chip {
+    font-size: 11px; font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+    padding: 4px 9px; border-radius: 6px; background: var(--surface-2);
+    color: var(--ink-2); border: 1px solid var(--line);
+  }
+  .col-chip.opt { color: var(--muted); border-style: dashed; }
+  .info {
+    display: flex; gap: 10px; align-items: flex-start; margin-top: 16px;
+    padding: 13px 15px; border-radius: var(--r-sm); font-size: 12.5px; line-height: 1.55;
+    background: var(--warning-wash); color: var(--ink-2);
+    border: 1px solid color-mix(in srgb, var(--warning) 26%, transparent);
+  }
+  .info .ico { width: 16px; height: 16px; flex: none; margin-top: 1px; color: var(--warning); }
+  .btn-2 {
+    display: inline-flex; align-items: center; gap: 8px; padding: 9px 15px;
+    background: var(--surface-2); color: var(--ink-2); border: 1px solid var(--ring);
+    border-radius: var(--r-sm); font: inherit; font-size: 12.5px; font-weight: 600; cursor: pointer;
+    transition: .18s;
+  }
+  .btn-2 .ico { width: 15px; height: 15px; }
+  .btn-2:hover { border-color: var(--accent); color: var(--accent); }
+  .bar-row { display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; margin-bottom: 16px; }
+
   .scroll { overflow-x: auto; margin: 0 -4px; padding: 0 4px; }
   table { width: 100%; border-collapse: collapse; font-size: 13px; }
   th { text-align: left; font-size: 10.5px; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); font-weight: 700; padding: 0 12px 11px; white-space: nowrap; }
@@ -378,6 +429,10 @@
     <g id="g-receipt"><path d="M5 3.5h14v18l-2.3-1.6-2.4 1.6-2.3-1.6-2.4 1.6L7.3 21.5 5 21.5v-18Z"/><path d="M9 8.5h6M9 12.5h6"/></g>
     <g id="g-trend"><path d="M2.5 16.5 9 10l4 4 8.5-8.5"/><path d="M15.5 5.5h6v6"/></g>
     <g id="g-search"><circle cx="10.8" cy="10.8" r="7.3"/><path d="M16.2 16.2 21 21"/></g>
+    <g id="g-upload"><path d="M21 15v4.2A1.8 1.8 0 0 1 19.2 21H4.8A1.8 1.8 0 0 1 3 19.2V15"/><path d="m7.5 8.5 4.5-4.5 4.5 4.5"/><path d="M12 4v12"/></g>
+    <g id="g-file"><path d="M14 2.5H6.8A1.8 1.8 0 0 0 5 4.3v15.4a1.8 1.8 0 0 0 1.8 1.8h10.4a1.8 1.8 0 0 0 1.8-1.8V7.5L14 2.5Z"/><path d="M14 2.5v5h5"/></g>
+    <g id="g-download"><path d="M21 15v4.2A1.8 1.8 0 0 1 19.2 21H4.8A1.8 1.8 0 0 1 3 19.2V15"/><path d="m7.5 11 4.5 4.5 4.5-4.5"/><path d="M12 15.5V3.5"/></g>
+    <g id="g-info"><circle cx="12" cy="12" r="8.8"/><path d="M12 11v5"/><path d="M12 8v.2"/></g>
   </defs>
 </svg>
 
@@ -414,6 +469,8 @@
         <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><use href="#g-target"/></svg>Modèle</button>
       <button role="tab" data-tab="predict" aria-selected="false">
         <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><use href="#g-search"/></svg>Analyse</button>
+      <button role="tab" data-tab="import" aria-selected="false">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><use href="#g-upload"/></svg>Import CSV</button>
     </div>
     <div class="seg" role="group" aria-label="Choix du modèle">
       <button type="button" data-sc="scenario2" aria-pressed="true">Binaire</button>
@@ -579,6 +636,44 @@
         </div>
       </div>
     </div>
+  </section>
+
+  <!-- ══════════════ IMPORT CSV ══════════════ -->
+  <section class="panel" id="p-import">
+    <div class="card">
+      <div class="card-head">
+        <div class="head-ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><use href="#g-upload"/></svg></div>
+        <div><h3>Analyser un fichier de transactions</h3><p>Toutes les lignes sont scorées en une passe, client par client et dans l'ordre chronologique</p></div>
+      </div>
+
+      <div class="drop" id="drop" tabindex="0" role="button" aria-label="Choisir un fichier CSV">
+        <div class="up-ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><use href="#g-upload"/></svg></div>
+        <b>Glissez un fichier CSV ici</b>
+        <span>ou cliquez pour le sélectionner — 20 000 lignes maximum</span>
+      </div>
+      <input type="file" id="fileInput" accept=".csv,text/csv" hidden>
+
+      <div id="fileInfo" hidden></div>
+
+      <div class="cols">
+        <span class="col-chip">ID Clients</span><span class="col-chip">Date</span>
+        <span class="col-chip">Type de transaction</span><span class="col-chip">Status operation</span>
+        <span class="col-chip">Localisation</span><span class="col-chip">Montant</span>
+        <span class="col-chip opt">Target (facultatif)</span>
+      </div>
+      <p class="note">
+        Séparateur « ; », « , » ou tabulation — détecté automatiquement. Si la colonne
+        <b>Target</b> est présente, les prédictions sont confrontées à la vérité terrain
+        et un rapport d'évaluation s'affiche.
+      </p>
+
+      <button class="btn-main" id="btnImport" disabled>
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#g-shield"/></svg>
+        <span id="btnImportTxt">Analyser le fichier</span>
+      </button>
+    </div>
+
+    <div id="importOut"></div>
   </section>
 
 </main>
@@ -1135,6 +1230,8 @@ document.querySelectorAll('.seg button').forEach(b => b.addEventListener('click'
   document.querySelectorAll('.seg button').forEach(x => x.setAttribute('aria-pressed', x === b));
   scenario = b.dataset.sc;
   chargerMeta(); chargerRapport(); reinitialiser();
+  // Les resultats d'import valent pour un modele donne : on les invalide.
+  if ($('importOut')) $('importOut').innerHTML = '';
 }));
 
 document.querySelectorAll('.preset').forEach(b => b.addEventListener('click', () => {
@@ -1151,6 +1248,173 @@ $('apiBase').addEventListener('change', () => { verifierApi(); chargerMeta(); ch
 
 [['cRepart','tRepart'],['cVilles','tVilles'],['cHeure','tHeure'],['cBox','tBox'],
  ['cCM','tCM'],['cImp','tImp'],['chart','tip']].forEach(([s, t]) => survol($(s), $(t)));
+
+// ---------------------------------------------------------------------------
+// Onglet IMPORT CSV
+// ---------------------------------------------------------------------------
+let fichier = null, dernierLot = null;
+const ko = o => o < 1024 ? o + ' o' : o < 1048576 ? (o / 1024).toFixed(1) + ' Ko' : (o / 1048576).toFixed(1) + ' Mo';
+
+function choisirFichier(f) {
+  if (!f) return;
+  fichier = f;
+  $('fileInfo').hidden = false;
+  $('fileInfo').innerHTML = `<div class="filebox">
+      <div class="fico">${ic('file')}</div>
+      <div class="fmeta"><b>${esc(f.name)}</b><span>${ko(f.size)}</span></div>
+      <button type="button" class="btn-2" id="btnClear">Retirer</button>
+    </div>`;
+  $('btnClear').addEventListener('click', () => {
+    fichier = null; $('fileInput').value = '';
+    $('fileInfo').hidden = true; $('btnImport').disabled = true; $('importOut').innerHTML = '';
+  });
+  $('btnImport').disabled = false;
+}
+
+$('drop').addEventListener('click', () => $('fileInput').click());
+$('drop').addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); $('fileInput').click(); } });
+$('fileInput').addEventListener('change', e => choisirFichier(e.target.files[0]));
+['dragenter', 'dragover'].forEach(t => $('drop').addEventListener(t, e => { e.preventDefault(); $('drop').classList.add('over'); }));
+['dragleave', 'drop'].forEach(t => $('drop').addEventListener(t, e => { e.preventDefault(); $('drop').classList.remove('over'); }));
+$('drop').addEventListener('drop', e => choisirFichier(e.dataTransfer.files[0]));
+
+$('btnImport').addEventListener('click', async () => {
+  if (!fichier) return;
+  const b = $('btnImport');
+  b.disabled = true;
+  $('btnImportTxt').textContent = 'Analyse en cours…';
+  $('importOut').innerHTML = `<div class="card"><div class="sk" style="height:120px"></div></div>`;
+  try {
+    const fd = new FormData();
+    fd.append('file', fichier);
+    const res = await fetch(`${apiBase()}/predict/batch/${scenario}`, { method: 'POST', body: fd });
+    const txt = await res.text();
+    if (!res.ok) {
+      let d = txt;
+      try { d = JSON.parse(txt).detail || txt; } catch {}
+      throw new Error(d);
+    }
+    dernierLot = JSON.parse(txt);
+    afficherLot(dernierLot);
+  } catch (err) {
+    $('importOut').innerHTML = `<div class="card"><div class="alert">${ic('alert')}<div>
+      <b>Analyse impossible.</b><br>${esc(err.message)}</div></div></div>`;
+  } finally {
+    b.disabled = false;
+    $('btnImportTxt').textContent = 'Analyser le fichier';
+  }
+});
+
+function afficherLot(d) {
+  const cols = d.colonnes;
+  const iCl = cols.indexOf('classe'), iP = cols.indexOf('p_fraude'), iNv = cols.indexOf('niveau');
+  const tauxAlerte = d.n_alertes / d.n_analysees;
+
+  // Les lignes les plus risquees d'abord : c'est ce qu'un analyste veut voir.
+  const tri = d.lignes.map((l, i) => [i, l]).sort((a, b) => b[1][iP] - a[1][iP]).slice(0, 100);
+
+  const tuiles = `<div class="tiles">
+    ${tuile('Transactions analysées', nf.format(d.n_analysees),
+        d.n_lignes_fichier !== d.n_analysees ? `${nf.format(d.n_lignes_fichier - d.n_analysees)} ligne(s) écartée(s)` : `${d.n_clients} clients · ${d.periode[0]} → ${d.periode[1]}`, 'db')}
+    ${tuile('Alertes', nf.format(d.n_alertes), pc(tauxAlerte) + ' du fichier', 'alert', tauxAlerte > .1 ? 't-crit' : 't-warn')}
+    ${tuile('Montant à risque', nf.format(Math.round(d.montant_a_risque)), 'FCFA — probabilité ≥ 30 %', 'coins', 't-crit')}
+    ${tuile('Montant total', nf.format(Math.round(d.montant_total)), 'FCFA sur la période', 'bank')}
+  </div>`;
+
+  const rep = Object.entries(d.repartition).map(([c, n]) => {
+    const part = n / d.n_analysees;
+    return `<div class="prob">
+      <span>${esc(c)}</span>
+      <span class="track"><i style="width:${(part * 100).toFixed(1)}%;background:${COUL_CLASSE[c] || 'var(--series)'}"></i></span>
+      <span class="val">${nf.format(n)}</span></div>`;
+  }).join('');
+
+  let evalHtml = '';
+  if (d.evaluation) {
+    const e = d.evaluation;
+    const max = Math.max(...e.confusion.flat());
+    const cells = e.confusion.map((row, i) => row.map((v, j) => {
+      const idx = v === 0 ? 0 : Math.min(RAMPE.length - 1, Math.floor((v / max) ** .55 * RAMPE.length));
+      return `<td style="text-align:center;background:${RAMPE[idx]};color:${idx >= 4 ? '#fff' : 'var(--ink)'};font-weight:650">${nf.format(v)}</td>`;
+    }).join('')).map((tds, i) => `<tr><td class="strong">${esc(e.classes[i])}</td>${tds}</tr>`).join('');
+
+    evalHtml = `<div class="card">
+      <div class="card-head">
+        <div class="head-ico">${ic('target', 1.8)}</div>
+        <div><h3>Évaluation sur la vérité terrain</h3>
+        <p>La colonne <b>Target</b> du fichier permet de comparer prédictions et réalité</p></div>
+      </div>
+      <div class="tiles">
+        ${tuile('Exactitude', pc(e.accuracy), `sur ${nf.format(e.n_evaluees)} lignes étiquetées`, 'check', e.accuracy >= .9 ? 't-good' : 't-warn')}
+        ${Object.entries(e.par_classe).map(([c, p]) =>
+          tuile(`Rappel ${c}`, pc(p.recall), `${Math.round(p.recall * p.support)} / ${p.support} retrouvés`, 'shield',
+                p.recall >= .8 ? 't-good' : p.recall >= .5 ? 't-warn' : 't-crit')).join('')}
+      </div>
+      <div class="scroll" style="margin-top:6px">
+        <table>
+          <thead><tr><th>Réel \\ Prédit</th>${e.classes.map(c => `<th style="text-align:center">${esc(c)}</th>`).join('')}</tr></thead>
+          <tbody>${cells}</tbody>
+        </table>
+      </div>
+      <div class="info">${ic('info')}<div>
+        <b>À interpréter avec prudence.</b> Si ce fichier est celui qui a servi à entraîner
+        le modèle, les scores sont artificiellement élevés : le modèle a déjà vu ces lignes.
+        Une évaluation honnête se fait sur des transactions inconnues de lui — c'est ce que
+        montre l'onglet <b>Modèle</b>.
+      </div></div>
+    </div>`;
+  }
+
+  const lignes = tri.map(([i, l]) => {
+    const s = st(l[iNv]);
+    return `<tr>
+      <td>${i + 1}</td><td class="strong">${esc(l[0])}</td><td>${esc(l[1])}</td>
+      <td>${esc(l[3])}</td><td>${esc(l[4])}</td>
+      <td class="num strong">${nf.format(l[2])}</td>
+      <td><span class="pill" style="background:${s.wash};color:${s.col}">${ic(s.ico)} ${esc(l[iCl])}</span></td>
+      <td class="num strong">${pc(l[iP])}</td></tr>`;
+  }).join('');
+
+  $('importOut').innerHTML = tuiles + `
+    <div class="card">
+      <div class="card-head">
+        <div class="head-ico">${ic('chart', 1.8)}</div>
+        <div><h3>Verdicts attribués</h3><p>Répartition des ${nf.format(d.n_analysees)} transactions de « ${esc(d.fichier)} »</p></div>
+      </div>
+      <div class="probs">${rep}</div>
+    </div>` + evalHtml + `
+    <div class="card">
+      <div class="bar-row">
+        <div>
+          <h3 style="margin:0;font-size:15px;font-weight:650">Transactions les plus à risque</h3>
+          <p style="margin:3px 0 0;font-size:12.5px;color:var(--muted)">Les 100 probabilités de fraude les plus élevées</p>
+        </div>
+        <button class="btn-2" id="btnCsv">${ic('download')} Télécharger les résultats</button>
+      </div>
+      <div class="scroll">
+        <table>
+          <thead><tr><th>#</th><th>Client</th><th>Date</th><th>Type</th><th>Ville</th>
+            <th class="num">Montant</th><th>Verdict</th><th class="num">Prob. fraude</th></tr></thead>
+          <tbody>${lignes}</tbody>
+        </table>
+      </div>
+    </div>`;
+
+  $('btnCsv').addEventListener('click', () => telechargerCsv(d));
+}
+
+function telechargerCsv(d) {
+  const entete = d.colonnes.join(';');
+  const corps = d.lignes.map(l => l.map(v =>
+    typeof v === 'string' && /[;"\n]/.test(v) ? `"${v.replace(/"/g, '""')}"` : v).join(';')).join('\n');
+  // BOM UTF-8 : sans lui, Excel affiche mal les accents.
+  const blob = new Blob(['﻿' + entete + '\n' + corps], { type: 'text/csv;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `resultats_${d.scenario}_${d.fichier.replace(/\.csv$/i, '')}.csv`;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
 
 $('date').value = dateLocale(new Date());
 verifierApi(); chargerMeta(); chargerRapport();

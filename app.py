@@ -21,15 +21,28 @@ from datetime import datetime
 from pathlib import Path
 from typing import Literal, Optional
 
+import io
+
 import joblib
+import numpy as np
 import pandas as pd
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from pydantic import BaseModel, Field
 
 sys.path.insert(0, str(Path(__file__).parent))
 from model_lib import FraudModel  # noqa: F401  (nécessaire pour désérialiser joblib)
+
+# Le traitement par lot reutilise EXACTEMENT le code de construction des features
+# de l'entrainement : toute divergence entre entrainement et inference est ainsi
+# impossible par construction.
+from train_from_raw import (
+    CAT_FEATURES,
+    CORRECTIONS_VILLES,
+    NUM_FEATURES,
+    construire_features,
+)
 
 ART_DIR = Path(__file__).parent / "model_artifacts"
 
@@ -242,6 +255,155 @@ def predict_scenario2(tx: Transaction):
 @app.post("/predict/{scenario}", response_model=PredictionResponse)
 def predict_generic(scenario: str, tx: Transaction):
     return score(scenario, tx)
+
+
+# ---------------------------------------------------------------------------
+# Analyse par lot : un fichier CSV entier scoré en une passe
+# ---------------------------------------------------------------------------
+COLONNES_REQUISES = ["ID Clients", "Date", "Type de transaction",
+                     "Status operation", "Localisation", "Montant"]
+MAX_LIGNES = 20000
+
+
+def _lire_csv(contenu: bytes) -> pd.DataFrame:
+    """Lit le CSV en tolerant les separateurs et encodages courants.
+
+    A defaut d'une lecture comportant toutes les colonnes attendues, renvoie la
+    meilleure tentative : le controle des colonnes produira alors un message
+    precis ("colonnes manquantes") plutot qu'un vague "fichier illisible".
+    """
+    meilleur = None
+    for encodage in ("utf-8-sig", "utf-8", "cp1252", "latin-1"):
+        try:
+            texte = contenu.decode(encodage)
+        except UnicodeDecodeError:
+            continue
+        for sep in (";", ",", "\t"):
+            try:
+                df = pd.read_csv(io.StringIO(texte), sep=sep)
+            except Exception:  # separateur invalide pour ce fichier
+                continue
+            if len(df.columns) >= len(COLONNES_REQUISES):
+                return df
+            if meilleur is None or len(df.columns) > len(meilleur.columns):
+                meilleur = df
+    if meilleur is not None:
+        return meilleur
+    raise HTTPException(
+        status_code=400,
+        detail="Fichier illisible : ce n'est pas un CSV valide "
+               "(séparateur attendu « ; », « , » ou tabulation).",
+    )
+
+
+@app.post("/predict/batch/{scenario}")
+async def predict_batch(scenario: str, file: UploadFile = File(...)):
+    """Score un fichier CSV complet.
+
+    Les variables comportementales sont reconstruites au sein du fichier, client
+    par client et dans l'ordre chronologique : chaque transaction n'est decrite
+    qu'a partir de celles qui la precedent. Si une colonne `Target` est presente,
+    les predictions sont confrontees a la verite terrain.
+    """
+    if scenario not in MODELS:
+        raise HTTPException(status_code=404, detail=f"Scénario inconnu : {scenario}")
+
+    df = _lire_csv(await file.read())
+    df.columns = [str(c).strip() for c in df.columns]
+
+    manquantes = [c for c in COLONNES_REQUISES if c not in df.columns]
+    if manquantes:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Colonnes manquantes : {', '.join(manquantes)}. "
+                   f"Colonnes attendues : {', '.join(COLONNES_REQUISES)}.",
+        )
+    if len(df) > MAX_LIGNES:
+        raise HTTPException(status_code=413,
+                            detail=f"Fichier trop volumineux ({len(df)} lignes, maximum {MAX_LIGNES}).")
+
+    n_brut = len(df)
+    df = df[COLONNES_REQUISES + ([("Target")] if "Target" in df.columns else [])].copy()
+    df["Date"] = pd.to_datetime(df["Date"], errors="coerce")
+    df["Montant"] = pd.to_numeric(df["Montant"], errors="coerce")
+    for c in CAT_FEATURES:
+        df[c] = df[c].astype(str).str.strip()
+    df["Localisation"] = df["Localisation"].replace(CORRECTIONS_VILLES)
+
+    df = df.dropna(subset=["ID Clients", "Date", "Montant"])
+    df = df[df["Montant"] > 0]
+    if df.empty:
+        raise HTTPException(status_code=400, detail="Aucune ligne exploitable après nettoyage.")
+
+    meta = META[scenario]
+    connues = set(meta["categories"]["Localisation"])
+    df["Localisation"] = df["Localisation"].where(df["Localisation"].isin(connues), "Inconnu")
+
+    # Ordre chronologique par client : indispensable au calcul causal des features.
+    df = df.sort_values(["ID Clients", "Date"], kind="mergesort").reset_index(drop=True)
+    df = construire_features(df, meta["client_montant_median_default"])
+
+    model: FraudModel = MODELS[scenario]
+    classes, proba = model.predict(df[NUM_FEATURES + CAT_FEATURES])
+    idx_fraude = model.classes.index("Fraude") if "Fraude" in model.classes else -1
+    p_fraude = proba[:, idx_fraude] if idx_fraude >= 0 else np.zeros(len(df))
+
+    niveaux = np.where(p_fraude >= 0.7, "ÉLEVÉ",
+                       np.where((p_fraude >= 0.3) | (classes == "Suspect"), "MOYEN", "FAIBLE"))
+    alerte = np.isin(classes, ["Fraude", "Suspect"])
+
+    # Format compact : un tableau par ligne plutot qu'un objet, pour limiter le
+    # volume transfere sur les gros fichiers.
+    lignes = [
+        [str(c), d.strftime("%Y-%m-%d %H:%M"), float(m), str(t), str(v),
+         str(cl), round(float(p), 4), str(nv)]
+        for c, d, m, t, v, cl, p, nv in zip(
+            df["ID Clients"], df["Date"], df["Montant"], df["Type de transaction"],
+            df["Localisation"], classes, p_fraude, niveaux)
+    ]
+
+    resultat = {
+        "scenario": scenario,
+        "fichier": file.filename,
+        "n_lignes_fichier": int(n_brut),
+        "n_analysees": int(len(df)),
+        "n_clients": int(df["ID Clients"].nunique()),
+        "periode": [df["Date"].min().strftime("%d/%m/%Y"), df["Date"].max().strftime("%d/%m/%Y")],
+        "montant_total": float(df["Montant"].sum()),
+        "repartition": {c: int((classes == c).sum()) for c in model.classes},
+        "n_alertes": int(alerte.sum()),
+        "montant_a_risque": float(df.loc[p_fraude >= 0.3, "Montant"].sum()),
+        "colonnes": ["client", "date", "montant", "type", "ville", "classe", "p_fraude", "niveau"],
+        "lignes": lignes,
+    }
+
+    # Verite terrain disponible : on evalue reellement le modele sur ce fichier.
+    if "Target" in df.columns:
+        reel = df["Target"].astype(str).str.strip()
+        valides = reel.isin(model.classes)
+        if valides.any():
+            r, pr = reel[valides], pd.Series(classes, index=df.index)[valides]
+            matrice = [[int(((r == a) & (pr == b)).sum()) for b in model.classes]
+                       for a in model.classes]
+            par_classe = {}
+            for c in model.classes:
+                vp = int(((r == c) & (pr == c)).sum())
+                fp = int(((r != c) & (pr == c)).sum())
+                fn = int(((r == c) & (pr != c)).sum())
+                par_classe[c] = {
+                    "precision": vp / (vp + fp) if vp + fp else 0.0,
+                    "recall": vp / (vp + fn) if vp + fn else 0.0,
+                    "support": int((r == c).sum()),
+                }
+            resultat["evaluation"] = {
+                "classes": model.classes,
+                "n_evaluees": int(valides.sum()),
+                "accuracy": float((r == pr).mean()),
+                "confusion": matrice,
+                "par_classe": par_classe,
+            }
+
+    return resultat
 
 
 @app.get("/", include_in_schema=False)
