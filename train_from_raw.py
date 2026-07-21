@@ -120,6 +120,28 @@ def construire_modele(classes):
     return pre, model
 
 
+def importances_par_variable(pre, model):
+    """Ramene l'importance des colonnes one-hot sur les variables d'origine.
+
+    OneHotEncoder eclate 'Localisation' en ~48 colonnes : sans regroupement,
+    chaque ville pesee separement parait negligeable alors que la variable
+    'Localisation' peut compter beaucoup.
+    """
+    noms = list(pre.get_feature_names_out())
+    poids = model.feature_importances_
+    total = {}
+    for nom_col, w in zip(noms, poids):
+        court = nom_col.split("__", 1)[-1]
+        origine = next(
+            (c for c in CAT_FEATURES if court.startswith(c + "_")),
+            court if court in NUM_FEATURES else None,
+        )
+        if origine:
+            total[origine] = total.get(origine, 0.0) + float(w)
+    somme = sum(total.values()) or 1.0
+    return {k: v / somme for k, v in sorted(total.items(), key=lambda kv: -kv[1])}
+
+
 def evaluer(nom, df, classes):
     """Entrainement sur le passe, evaluation sur le futur."""
     df = df.sort_values("Date", kind="mergesort").reset_index(drop=True)
@@ -148,8 +170,75 @@ def evaluer(nom, df, classes):
         print(f"  {c:<14}" + "".join(f"{v:>10}" for v in cm[i]))
 
     print(f"\n  --- Precision / rappel ({nom}) ---")
+    rapport = classification_report(yte, pred, labels=range(len(classes)),
+                                    target_names=classes, digits=3,
+                                    zero_division=0, output_dict=True)
     print(classification_report(yte, pred, labels=range(len(classes)),
                                 target_names=classes, digits=3, zero_division=0))
+
+    return {
+        "classes": classes,
+        "n_train": int(len(train)),
+        "n_test": int(len(test)),
+        "date_coupe": date_coupe.strftime("%d/%m/%Y"),
+        "accuracy": float(rapport["accuracy"]),
+        "f1_macro": float(rapport["macro avg"]["f1-score"]),
+        "confusion": cm.tolist(),
+        "par_classe": {
+            c: {
+                "precision": float(rapport[c]["precision"]),
+                "recall": float(rapport[c]["recall"]),
+                "f1": float(rapport[c]["f1-score"]),
+                "support": int(rapport[c]["support"]),
+            } for c in classes
+        },
+        "importances": importances_par_variable(pre, model),
+    }
+
+
+def statistiques(df, classes):
+    """Statistiques descriptives affichees dans l'onglet Donnees du tableau de bord."""
+    par_heure = []
+    for h in range(24):
+        sous = df[df["heure"] == h]
+        par_heure.append({
+            "heure": h,
+            "n": int(len(sous)),
+            "taux_fraude": float((sous["Target"] == "Fraude").mean()) if len(sous) else 0.0,
+        })
+
+    montants = {}
+    for t in sorted(df["Type de transaction"].unique()):
+        s = df.loc[df["Type de transaction"] == t, "Montant"]
+        montants[t] = {
+            "min": float(s.min()), "q1": float(s.quantile(.25)),
+            "med": float(s.median()), "q3": float(s.quantile(.75)),
+            "max": float(s.max()), "n": int(len(s)),
+        }
+
+    return {
+        "n_transactions": int(len(df)),
+        "n_clients": int(df["ID Clients"].nunique()),
+        "n_villes": int(df["Localisation"].nunique()),
+        "montant_moyen": float(df["Montant"].mean()),
+        "montant_median": float(df["Montant"].median()),
+        "periode": [df["Date"].min().strftime("%d/%m/%Y"), df["Date"].max().strftime("%d/%m/%Y")],
+        "repartition": {c: int((df["Target"] == c).sum()) for c in classes},
+        "top_villes": [
+            {"ville": v, "n": int(n)}
+            for v, n in df["Localisation"].value_counts().head(10).items()
+        ],
+        "par_type": {
+            t: int(n) for t, n in df["Type de transaction"].value_counts().items()
+        },
+        "par_statut": {
+            s: int(n) for s, n in df["Status operation"].value_counts().items()
+        },
+        "par_heure": par_heure,
+        "montants_par_type": montants,
+        "taux_fraude_nuit": float(df.loc[df["est_nuit"] == 1, "Target"].eq("Fraude").mean()),
+        "taux_fraude_jour": float(df.loc[df["est_nuit"] == 0, "Target"].eq("Fraude").mean()),
+    }
 
 
 def entrainer_final(nom, df, classes):
@@ -195,8 +284,18 @@ def traiter(fichier, nom, classes):
     df = df.sort_values(["ID Clients", "Date"], kind="mergesort").reset_index(drop=True)
     df = construire_features(df, mediane)
 
-    evaluer(nom, df, classes)
+    metriques = evaluer(nom, df, classes)
     entrainer_final(nom, df, classes)
+
+    # Statistiques et metriques figees dans un JSON : le tableau de bord peut les
+    # afficher sans avoir acces aux donnees brutes (qui ne sont pas versionnees).
+    (ART_DIR / f"rapport_{nom}.json").write_text(
+        json.dumps({"scenario": nom, "metriques": metriques,
+                    "donnees": statistiques(df, classes)},
+                   ensure_ascii=False, indent=2),
+        encoding="utf-8",
+    )
+    print(f"  Rapport ecrit : model_artifacts/rapport_{nom}.json")
 
 
 if __name__ == "__main__":

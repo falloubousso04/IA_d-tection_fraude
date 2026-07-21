@@ -213,6 +213,19 @@ def get_meta(scenario: str):
     return META[scenario]
 
 
+@app.get("/rapport/{scenario}")
+def get_rapport(scenario: str):
+    """Statistiques du jeu de donnees et performances mesurees du modele.
+
+    Fige au moment de l'entrainement (train_from_raw.py), ce qui permet au
+    tableau de bord de les afficher sans acces aux donnees brutes.
+    """
+    fichier = ART_DIR / f"rapport_{scenario}.json"
+    if not fichier.exists():
+        raise HTTPException(status_code=404, detail="Rapport indisponible pour ce scénario")
+    return json.loads(fichier.read_text(encoding="utf-8"))
+
+
 @app.post("/predict/scenario1", response_model=PredictionResponse)
 def predict_scenario1(tx: Transaction):
     """Modèle 3 classes : Normal / Suspect / Fraude."""

@@ -1,0 +1,273 @@
+{
+  "scenario": "scenario2",
+  "metriques": {
+    "classes": [
+      "Normal",
+      "Fraude"
+    ],
+    "n_train": 6134,
+    "n_test": 1534,
+    "date_coupe": "20/05/2024",
+    "accuracy": 0.9895697522816167,
+    "f1_macro": 0.9466179477141241,
+    "confusion": [
+      [
+        1447,
+        0
+      ],
+      [
+        16,
+        71
+      ]
+    ],
+    "par_classe": {
+      "Normal": {
+        "precision": 0.9890635680109364,
+        "recall": 1.0,
+        "f1": 0.9945017182130584,
+        "support": 1447
+      },
+      "Fraude": {
+        "precision": 1.0,
+        "recall": 0.8160919540229885,
+        "f1": 0.8987341772151899,
+        "support": 87
+      }
+    },
+    "importances": {
+      "ecart_montant_client": 0.3033664182691494,
+      "est_nuit": 0.24067397683714406,
+      "Status operation": 0.10800729685567048,
+      "Localisation": 0.10379102960348634,
+      "Type de transaction": 0.03801263906105484,
+      "heure": 0.033412083943502834,
+      "client_montant_std_hist": 0.03177844374888419,
+      "temps_depuis_derniere_trans_min": 0.029340455727469975,
+      "Montant": 0.024211403979379795,
+      "montant_log": 0.021825046613038853,
+      "client_nb_trans_hist": 0.02040488042962688,
+      "client_montant_moy_hist": 0.01979179643578141,
+      "changement_localisation": 0.016749283274017947,
+      "jour_semaine": 0.008635245221793026,
+      "est_weekend": 0.0,
+      "trans_rapide_5min": 0.0
+    }
+  },
+  "donnees": {
+    "n_transactions": 7668,
+    "n_clients": 113,
+    "n_villes": 23,
+    "montant_moyen": 470230.30777256127,
+    "montant_median": 200000.0,
+    "periode": [
+      "01/01/2023",
+      "20/03/2025"
+    ],
+    "repartition": {
+      "Normal": 7508,
+      "Fraude": 160
+    },
+    "top_villes": [
+      {
+        "ville": "Dakar",
+        "n": 2169
+      },
+      {
+        "ville": "Thiès",
+        "n": 1418
+      },
+      {
+        "ville": "Touba",
+        "n": 1194
+      },
+      {
+        "ville": "Saint Louis",
+        "n": 964
+      },
+      {
+        "ville": "Kaolack",
+        "n": 905
+      },
+      {
+        "ville": "Ziguinchor",
+        "n": 452
+      },
+      {
+        "ville": "Tambacounda",
+        "n": 96
+      },
+      {
+        "ville": "Richard Toll",
+        "n": 63
+      },
+      {
+        "ville": "Saly",
+        "n": 59
+      },
+      {
+        "ville": "Podor",
+        "n": 51
+      }
+    ],
+    "par_type": {
+      "ATM": 2867,
+      "Paiement en ligne": 2559,
+      "Paiement électronique": 2242
+    },
+    "par_statut": {
+      "Validé": 6436,
+      "En attente": 1213,
+      "Echoué": 19
+    },
+    "par_heure": [
+      {
+        "heure": 0,
+        "n": 19,
+        "taux_fraude": 0.8421052631578947
+      },
+      {
+        "heure": 1,
+        "n": 23,
+        "taux_fraude": 0.782608695652174
+      },
+      {
+        "heure": 2,
+        "n": 18,
+        "taux_fraude": 0.7777777777777778
+      },
+      {
+        "heure": 3,
+        "n": 6,
+        "taux_fraude": 1.0
+      },
+      {
+        "heure": 4,
+        "n": 0,
+        "taux_fraude": 0.0
+      },
+      {
+        "heure": 5,
+        "n": 3,
+        "taux_fraude": 1.0
+      },
+      {
+        "heure": 6,
+        "n": 5,
+        "taux_fraude": 1.0
+      },
+      {
+        "heure": 7,
+        "n": 1,
+        "taux_fraude": 1.0
+      },
+      {
+        "heure": 8,
+        "n": 101,
+        "taux_fraude": 0.009900990099009901
+      },
+      {
+        "heure": 9,
+        "n": 406,
+        "taux_fraude": 0.0049261083743842365
+      },
+      {
+        "heure": 10,
+        "n": 1144,
+        "taux_fraude": 0.009615384615384616
+      },
+      {
+        "heure": 11,
+        "n": 803,
+        "taux_fraude": 0.0062266500622665
+      },
+      {
+        "heure": 12,
+        "n": 1168,
+        "taux_fraude": 0.0008561643835616438
+      },
+      {
+        "heure": 13,
+        "n": 489,
+        "taux_fraude": 0.002044989775051125
+      },
+      {
+        "heure": 14,
+        "n": 832,
+        "taux_fraude": 0.003605769230769231
+      },
+      {
+        "heure": 15,
+        "n": 592,
+        "taux_fraude": 0.005067567567567568
+      },
+      {
+        "heure": 16,
+        "n": 472,
+        "taux_fraude": 0.00423728813559322
+      },
+      {
+        "heure": 17,
+        "n": 250,
+        "taux_fraude": 0.02
+      },
+      {
+        "heure": 18,
+        "n": 402,
+        "taux_fraude": 0.02736318407960199
+      },
+      {
+        "heure": 19,
+        "n": 172,
+        "taux_fraude": 0.023255813953488372
+      },
+      {
+        "heure": 20,
+        "n": 324,
+        "taux_fraude": 0.018518518518518517
+      },
+      {
+        "heure": 21,
+        "n": 164,
+        "taux_fraude": 0.018292682926829267
+      },
+      {
+        "heure": 22,
+        "n": 160,
+        "taux_fraude": 0.1
+      },
+      {
+        "heure": 23,
+        "n": 114,
+        "taux_fraude": 0.20175438596491227
+      }
+    ],
+    "montants_par_type": {
+      "ATM": {
+        "min": 5000.0,
+        "q1": 50000.0,
+        "med": 120000.0,
+        "q3": 210000.0,
+        "max": 10000000.0,
+        "n": 2867
+      },
+      "Paiement en ligne": {
+        "min": 10000.0,
+        "q1": 150000.0,
+        "med": 250000.0,
+        "q3": 500000.0,
+        "max": 10000000.0,
+        "n": 2559
+      },
+      "Paiement électronique": {
+        "min": 10000.0,
+        "q1": 100000.0,
+        "med": 250000.0,
+        "q3": 450000.0,
+        "max": 14000000.0,
+        "n": 2242
+      }
+    },
+    "taux_fraude_nuit": 0.27988338192419826,
+    "taux_fraude_jour": 0.008737201365187713
+  }
+}
