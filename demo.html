@@ -7,107 +7,125 @@
 <style>
   :root {
     color-scheme: light;
-    --plane: #f4f5f7;
-    --plane-2: #eceef1;
+    --plane: #eef1f6;
+    --plane-2: #e3e8ef;
     --surface: #ffffff;
-    --surface-2: #f8f9fa;
-    --ink: #0b0f14;
-    --ink-2: #4a5460;
-    --muted: #8b95a1;
-    --grid: #e4e7eb;
-    --axis: #c3cad3;
-    --line: rgba(11, 15, 20, .07);
-    --ring: rgba(11, 15, 20, .09);
-    --accent: #2a78d6;
-    --accent-2: #4f46e5;
-    --accent-soft: rgba(42, 120, 214, .10);
-    --series: #2a78d6;
-    --good: #0ca30c;
-    --warning: #d98b00;
-    --critical: #d03b3b;
-    --good-wash: rgba(12, 163, 12, .10);
-    --warning-wash: rgba(250, 178, 25, .16);
-    --critical-wash: rgba(208, 59, 59, .10);
-    --s1: #dbe9fc; --s2: #b7d3f6; --s3: #86b6ef; --s4: #4a92e2; --s5: #2a78d6; --s6: #1c5cab;
-    --sh-1: 0 1px 2px rgba(11,15,20,.05);
-    --sh-2: 0 1px 2px rgba(11,15,20,.04), 0 4px 12px -4px rgba(11,15,20,.08);
-    --sh-3: 0 1px 3px rgba(11,15,20,.05), 0 12px 32px -12px rgba(11,15,20,.16);
-    --r-sm: 8px; --r-md: 12px; --r-lg: 16px;
+    --surface-2: #f6f8fb;
+    --ink: #0b1220;
+    --ink-2: #47536a;
+    --muted: #8792a6;
+    --grid: #e2e7ef;
+    --axis: #bcc5d4;
+    --line: rgba(11, 18, 32, .08);
+    --ring: rgba(11, 18, 32, .10);
+
+    --accent: #2563c9;
+    --accent-2: #5b4bd6;
+    --accent-soft: rgba(37, 99, 201, .10);
+    --series: #2563c9;
+
+    --good: #0a8f43;
+    --warning: #b87503;
+    --critical: #c62f38;
+    --good-wash: rgba(10, 143, 67, .10);
+    --warning-wash: rgba(184, 117, 3, .12);
+    --critical-wash: rgba(198, 47, 56, .10);
+
+    --s1: #dce9fb; --s2: #b6d1f4; --s3: #85b1ea; --s4: #4b8adc; --s5: #2563c9; --s6: #1a4a99;
+
+    --sh-1: 0 1px 2px rgba(11,18,32,.05);
+    --sh-2: 0 1px 2px rgba(11,18,32,.04), 0 6px 16px -6px rgba(11,18,32,.10);
+    --sh-3: 0 1px 3px rgba(11,18,32,.06), 0 16px 40px -16px rgba(11,18,32,.20);
+    --r-sm: 9px; --r-md: 13px; --r-lg: 18px;
   }
   @media (prefers-color-scheme: dark) {
     :root:where(:not([data-theme="light"])) {
       color-scheme: dark;
-      --plane: #0a0c10; --plane-2: #12151b; --surface: #14181f; --surface-2: #191e26;
-      --ink: #f2f5f8; --ink-2: #a9b4c0; --muted: #6f7a87;
-      --grid: #232932; --axis: #333b46;
-      --line: rgba(255,255,255,.07); --ring: rgba(255,255,255,.10);
-      --accent: #4a92e2; --accent-2: #8b85f0; --accent-soft: rgba(74,146,226,.14);
-      --series: #4a92e2;
-      --warning: #fab219;
-      --good-wash: rgba(12,163,12,.18); --warning-wash: rgba(250,178,25,.18); --critical-wash: rgba(208,59,59,.20);
-      --s1: #16324f; --s2: #1c5cab; --s3: #2a78d6; --s4: #4a92e2; --s5: #86b6ef; --s6: #b7d3f6;
-      --sh-1: 0 1px 2px rgba(0,0,0,.5);
-      --sh-2: 0 1px 2px rgba(0,0,0,.4), 0 4px 12px -4px rgba(0,0,0,.5);
-      --sh-3: 0 1px 3px rgba(0,0,0,.5), 0 12px 32px -12px rgba(0,0,0,.7);
+      --plane: #070a12; --plane-2: #121724; --surface: #131826; --surface-2: #1a2032;
+      --ink: #f0f4fa; --ink-2: #a5b2c6; --muted: #6d7a90;
+      --grid: #222a3c; --axis: #333d52;
+      --line: rgba(255,255,255,.08); --ring: rgba(255,255,255,.12);
+      --accent: #5590e8; --accent-2: #8b7ef0; --accent-soft: rgba(85,144,232,.16);
+      --series: #5590e8;
+      --good: #23c065; --warning: #f0ad2e; --critical: #ee5a63;
+      --good-wash: rgba(35,192,101,.14); --warning-wash: rgba(240,173,46,.14); --critical-wash: rgba(238,90,99,.16);
+      --s1: #16294a; --s2: #1a4a99; --s3: #2563c9; --s4: #4b8adc; --s5: #85b1ea; --s6: #b6d1f4;
+      --sh-1: 0 1px 2px rgba(0,0,0,.6);
+      --sh-2: 0 1px 2px rgba(0,0,0,.5), 0 6px 16px -6px rgba(0,0,0,.6);
+      --sh-3: 0 1px 3px rgba(0,0,0,.6), 0 16px 40px -16px rgba(0,0,0,.8);
     }
   }
   :root[data-theme="dark"] {
     color-scheme: dark;
-    --plane: #0a0c10; --plane-2: #12151b; --surface: #14181f; --surface-2: #191e26;
-    --ink: #f2f5f8; --ink-2: #a9b4c0; --muted: #6f7a87;
-    --grid: #232932; --axis: #333b46;
-    --line: rgba(255,255,255,.07); --ring: rgba(255,255,255,.10);
-    --accent: #4a92e2; --accent-2: #8b85f0; --accent-soft: rgba(74,146,226,.14);
-    --series: #4a92e2;
-    --warning: #fab219;
-    --good-wash: rgba(12,163,12,.18); --warning-wash: rgba(250,178,25,.18); --critical-wash: rgba(208,59,59,.20);
-    --s1: #16324f; --s2: #1c5cab; --s3: #2a78d6; --s4: #4a92e2; --s5: #86b6ef; --s6: #b7d3f6;
-    --sh-1: 0 1px 2px rgba(0,0,0,.5);
-    --sh-2: 0 1px 2px rgba(0,0,0,.4), 0 4px 12px -4px rgba(0,0,0,.5);
-    --sh-3: 0 1px 3px rgba(0,0,0,.5), 0 12px 32px -12px rgba(0,0,0,.7);
+    --plane: #070a12; --plane-2: #121724; --surface: #131826; --surface-2: #1a2032;
+    --ink: #f0f4fa; --ink-2: #a5b2c6; --muted: #6d7a90;
+    --grid: #222a3c; --axis: #333d52;
+    --line: rgba(255,255,255,.08); --ring: rgba(255,255,255,.12);
+    --accent: #5590e8; --accent-2: #8b7ef0; --accent-soft: rgba(85,144,232,.16);
+    --series: #5590e8;
+    --good: #23c065; --warning: #f0ad2e; --critical: #ee5a63;
+    --good-wash: rgba(35,192,101,.14); --warning-wash: rgba(240,173,46,.14); --critical-wash: rgba(238,90,99,.16);
+    --s1: #16294a; --s2: #1a4a99; --s3: #2563c9; --s4: #4b8adc; --s5: #85b1ea; --s6: #b6d1f4;
+    --sh-1: 0 1px 2px rgba(0,0,0,.6);
+    --sh-2: 0 1px 2px rgba(0,0,0,.5), 0 6px 16px -6px rgba(0,0,0,.6);
+    --sh-3: 0 1px 3px rgba(0,0,0,.6), 0 16px 40px -16px rgba(0,0,0,.8);
   }
 
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
+
+  /* ═══════════ Fond : dégradés diffus + trame fine ═══════════ */
   body {
     margin: 0;
     font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-    background: var(--plane);
     color: var(--ink);
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
+    background:
+      radial-gradient(1100px 560px at 12% -8%, color-mix(in srgb, var(--accent) 15%, transparent), transparent 62%),
+      radial-gradient(900px 480px at 88% -4%, color-mix(in srgb, var(--accent-2) 13%, transparent), transparent 58%),
+      radial-gradient(700px 700px at 50% 108%, color-mix(in srgb, var(--accent) 8%, transparent), transparent 60%),
+      var(--plane);
+    background-attachment: fixed;
+  }
+  body::before {
+    content: ''; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+    background-image: radial-gradient(color-mix(in srgb, var(--ink) 14%, transparent) .8px, transparent .8px);
+    background-size: 26px 26px;
+    opacity: .05;
   }
   .wrap { max-width: 1240px; margin: 0 auto; padding: 0 24px; }
   ::selection { background: var(--accent-soft); }
-  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 5px; }
+  .ico { width: 1em; height: 1em; flex: none; }
 
   /* ═══════════ Barre supérieure ═══════════ */
   .topbar {
     position: sticky; top: 0; z-index: 40;
-    background: color-mix(in srgb, var(--surface) 86%, transparent);
-    backdrop-filter: saturate(1.6) blur(14px);
+    background: color-mix(in srgb, var(--surface) 78%, transparent);
+    backdrop-filter: saturate(1.7) blur(16px);
     border-bottom: 1px solid var(--line);
   }
-  .topbar .wrap { display: flex; align-items: center; justify-content: space-between; gap: 20px; height: 62px; }
+  .topbar .wrap { display: flex; align-items: center; justify-content: space-between; gap: 20px; height: 64px; }
   .brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
   .mark {
-    width: 34px; height: 34px; border-radius: 10px; flex: none;
+    width: 36px; height: 36px; border-radius: 11px; flex: none;
     background: linear-gradient(140deg, var(--accent), var(--accent-2));
-    display: grid; place-items: center;
-    box-shadow: 0 2px 8px -2px color-mix(in srgb, var(--accent) 60%, transparent);
+    display: grid; place-items: center; color: #fff;
+    box-shadow: 0 3px 12px -3px color-mix(in srgb, var(--accent) 70%, transparent);
   }
-  .mark svg { width: 18px; height: 18px; }
+  .mark .ico { width: 19px; height: 19px; }
   .brand-txt { min-width: 0; }
-  .brand-txt b { display: block; font-size: 14.5px; font-weight: 650; letter-spacing: -.01em; line-height: 1.25; }
+  .brand-txt b { display: block; font-size: 14.5px; font-weight: 650; letter-spacing: -.012em; line-height: 1.25; }
   .brand-txt span { display: block; font-size: 11.5px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
   .tools { display: flex; align-items: center; gap: 8px; }
   .status {
-    display: flex; align-items: center; gap: 8px; height: 34px; padding: 0 12px;
+    display: flex; align-items: center; gap: 8px; height: 34px; padding: 0 13px;
     background: var(--surface-2); border: 1px solid var(--line); border-radius: 999px;
   }
-  .status input { border: none; background: transparent; color: var(--ink); font: inherit; font-size: 12px; width: 132px; padding: 0; }
+  .status input { border: none; background: transparent; color: var(--ink); font: inherit; font-size: 12px; width: 128px; padding: 0; }
   .status input:focus { outline: none; }
   .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--muted); flex: none; transition: .3s; }
   .dot.on { background: var(--good); box-shadow: 0 0 0 3px var(--good-wash); }
@@ -116,41 +134,44 @@
   .ghost {
     height: 34px; min-width: 34px; padding: 0 10px; background: var(--surface-2);
     border: 1px solid var(--line); border-radius: 999px; color: var(--ink-2);
-    cursor: pointer; display: inline-grid; place-items: center; font-size: 14px;
-    transition: .18s;
+    cursor: pointer; display: inline-grid; place-items: center; transition: .18s;
   }
+  .ghost .ico { width: 16px; height: 16px; }
   .ghost:hover { color: var(--ink); background: var(--plane-2); }
 
   /* ═══════════ Navigation ═══════════ */
-  .navrow { border-bottom: 1px solid var(--line); background: var(--surface); }
+  .navrow {
+    background: color-mix(in srgb, var(--surface) 68%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
   .navrow .wrap { display: flex; align-items: center; justify-content: space-between; gap: 18px; flex-wrap: wrap; }
-  .tabs { display: flex; gap: 4px; }
+  .tabs { display: flex; }
   .tabs button {
     position: relative; background: none; border: none; font: inherit; font-size: 14px;
-    font-weight: 550; color: var(--muted); padding: 14px 4px; margin-right: 22px;
-    cursor: pointer; transition: color .18s;
+    font-weight: 550; color: var(--muted); padding: 14px 2px; margin-right: 26px;
+    cursor: pointer; transition: color .18s; display: inline-flex; align-items: center; gap: 8px;
   }
+  .tabs button .ico { width: 15px; height: 15px; }
   .tabs button::after {
     content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px;
-    background: var(--accent); border-radius: 2px 2px 0 0;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2)); border-radius: 2px 2px 0 0;
     transform: scaleX(0); transition: transform .22s cubic-bezier(.2,.7,.3,1);
   }
   .tabs button:hover { color: var(--ink); }
   .tabs button[aria-selected="true"] { color: var(--ink); font-weight: 650; }
   .tabs button[aria-selected="true"]::after { transform: scaleX(1); }
 
-  .seg { display: flex; gap: 3px; background: var(--plane-2); border-radius: 9px; padding: 3px; }
+  .seg { display: flex; gap: 3px; background: var(--plane-2); border-radius: 10px; padding: 3px; }
   .seg button {
     border: none; background: transparent; color: var(--muted); font: inherit;
-    font-size: 12.5px; font-weight: 600; padding: 6px 14px; border-radius: 7px;
-    cursor: pointer; transition: .18s;
+    font-size: 12.5px; font-weight: 600; padding: 6px 14px; border-radius: 8px; cursor: pointer; transition: .18s;
   }
   .seg button:hover { color: var(--ink); }
   .seg button[aria-pressed="true"] { background: var(--surface); color: var(--ink); box-shadow: var(--sh-1); }
 
   main { padding: 28px 0 90px; }
 
-  /* ═══════════ Entrées animées ═══════════ */
   @keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
   .panel { display: none; }
   .panel.on { display: block; }
@@ -159,7 +180,7 @@
   .panel.on > *:nth-child(2) { animation-delay: .07s; }
   .panel.on > *:nth-child(3) { animation-delay: .12s; }
   .panel.on > *:nth-child(4) { animation-delay: .17s; }
-  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+  @media (prefers-reduced-motion: reduce) { *, *::before { animation: none !important; transition: none !important; } }
 
   /* ═══════════ Cartes ═══════════ */
   .card {
@@ -167,47 +188,60 @@
     border-radius: var(--r-lg); padding: 22px; box-shadow: var(--sh-2);
   }
   .card + .card, .grid2 + .card, .card + .grid2 { margin-top: 20px; }
-  .card-head { margin-bottom: 18px; }
+  .card-head { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 18px; }
+  .head-ico {
+    width: 34px; height: 34px; border-radius: 10px; flex: none; display: grid; place-items: center;
+    background: var(--accent-soft); color: var(--accent);
+  }
+  .head-ico .ico { width: 17px; height: 17px; }
   .card-head h3 { font-size: 15px; margin: 0; font-weight: 650; letter-spacing: -.012em; }
-  .card-head p { font-size: 12.5px; color: var(--muted); margin: 4px 0 0; }
+  .card-head p { font-size: 12.5px; color: var(--muted); margin: 3px 0 0; }
   .eyebrow {
     font-size: 10.5px; text-transform: uppercase; letter-spacing: .1em;
     color: var(--muted); font-weight: 700; margin: 0 0 14px;
+    display: flex; align-items: center; gap: 7px;
   }
+  .eyebrow .ico { width: 13px; height: 13px; }
   .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
   @media (max-width: 880px) { .grid2 { grid-template-columns: 1fr; } }
 
-  /* ═══════════ Tuiles ═══════════ */
-  .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(172px, 1fr)); gap: 14px; margin-bottom: 20px; }
+  /* ═══════════ Tuiles teintées ═══════════ */
+  .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(186px, 1fr)); gap: 14px; margin-bottom: 20px; }
   .tile {
-    position: relative; overflow: hidden;
-    background: var(--surface); border: 1px solid var(--line);
-    border-radius: var(--r-md); padding: 16px 18px; box-shadow: var(--sh-2);
+    position: relative; overflow: hidden; border-radius: var(--r-md);
+    padding: 17px 18px; box-shadow: var(--sh-2);
+    border: 1px solid color-mix(in srgb, var(--tone) 24%, var(--line));
+    background:
+      radial-gradient(120% 120% at 100% 0%, color-mix(in srgb, var(--tone) 15%, transparent), transparent 62%),
+      linear-gradient(150deg, color-mix(in srgb, var(--tone) 9%, var(--surface)), var(--surface) 72%);
+    --tone: var(--accent);
   }
-  .tile::before {
-    content: ''; position: absolute; inset: 0 auto 0 0; width: 3px;
-    background: var(--accent); opacity: .85;
-  }
-  .tile.t-good::before { background: var(--good); }
-  .tile.t-warn::before { background: var(--warning); }
-  .tile.t-crit::before { background: var(--critical); }
+  .tile.t-good { --tone: var(--good); }
+  .tile.t-warn { --tone: var(--warning); }
+  .tile.t-crit { --tone: var(--critical); }
+  .tile.t-brand { --tone: var(--accent-2); }
+  .tile-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
   .tile .k { font-size: 10.5px; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: .08em; }
-  .tile .v { font-size: 26px; font-weight: 680; margin-top: 7px; letter-spacing: -.03em; line-height: 1.1; }
+  .tile-ico {
+    width: 30px; height: 30px; border-radius: 9px; flex: none; display: grid; place-items: center;
+    background: color-mix(in srgb, var(--tone) 15%, transparent);
+    color: var(--tone);
+  }
+  .tile-ico .ico { width: 15px; height: 15px; }
+  .tile .v { font-size: 27px; font-weight: 680; margin-top: 9px; letter-spacing: -.032em; line-height: 1.1; }
   .tile .n { font-size: 11.5px; color: var(--muted); margin-top: 4px; }
 
-  /* ═══════════ Squelettes de chargement ═══════════ */
   @keyframes shimmer { to { background-position: 200% 0; } }
   .sk {
     border-radius: var(--r-md);
     background: linear-gradient(90deg, var(--plane-2) 25%, var(--surface-2) 37%, var(--plane-2) 63%);
     background-size: 200% 100%; animation: shimmer 1.4s infinite linear;
   }
-  .sk-tile { height: 92px; }
-  .sk-chart { height: 230px; }
+  .sk-tile { height: 104px; }
 
-  /* ═══════════ Graphiques ═══════════ */
+  /* ═══════════ Graphiques — surface neutre obligatoire ═══════════ */
   .chart-box { position: relative; }
-  svg { display: block; width: 100%; overflow: visible; }
+  svg.plot { display: block; width: 100%; overflow: visible; }
   .tip {
     position: absolute; pointer-events: none; opacity: 0; z-index: 20;
     background: var(--ink); color: var(--surface); border-radius: var(--r-sm);
@@ -221,7 +255,6 @@
   .layout { display: grid; grid-template-columns: 336px 1fr; gap: 20px; align-items: start; }
   @media (max-width: 940px) { .layout { grid-template-columns: 1fr; } }
   .field { margin-top: 14px; }
-  .field:first-of-type { margin-top: 0; }
   label { display: block; font-size: 11.5px; font-weight: 620; color: var(--ink-2); margin-bottom: 6px; }
   input, select {
     width: 100%; padding: 10px 12px; border: 1px solid var(--ring); border-radius: var(--r-sm);
@@ -229,26 +262,26 @@
     transition: border-color .16s, box-shadow .16s;
   }
   input:hover, select:hover { border-color: var(--axis); }
-  input:focus, select:focus {
-    outline: none; border-color: var(--accent);
-    box-shadow: 0 0 0 3px var(--accent-soft);
-  }
-  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  input:focus, select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
   .presets { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 18px; }
   .preset {
+    display: inline-flex; align-items: center; gap: 6px;
     padding: 7px 12px; font-size: 12px; font-weight: 550; font-family: inherit;
     background: var(--surface-2); color: var(--ink-2); border: 1px solid var(--line);
     border-radius: 999px; cursor: pointer; transition: .18s;
   }
+  .preset .ico { width: 13px; height: 13px; }
   .preset:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
   .btn-main {
     width: 100%; margin-top: 20px; padding: 12px; border: none; border-radius: var(--r-sm);
     background: linear-gradient(140deg, var(--accent), var(--accent-2)); color: #fff;
     font: inherit; font-size: 14px; font-weight: 650; cursor: pointer;
-    box-shadow: 0 2px 10px -3px color-mix(in srgb, var(--accent) 70%, transparent);
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    box-shadow: 0 3px 14px -4px color-mix(in srgb, var(--accent) 80%, transparent);
     transition: filter .18s, transform .1s;
   }
-  .btn-main:hover:not(:disabled) { filter: brightness(1.08); }
+  .btn-main .ico { width: 16px; height: 16px; }
+  .btn-main:hover:not(:disabled) { filter: brightness(1.09); }
   .btn-main:active:not(:disabled) { transform: translateY(1px); }
   .btn-main:disabled { opacity: .6; cursor: progress; }
   .note { font-size: 11.5px; color: var(--muted); margin-top: 16px; line-height: 1.55; }
@@ -256,32 +289,37 @@
   /* ═══════════ Verdict ═══════════ */
   .verdict {
     display: flex; gap: 30px; align-items: center; flex-wrap: wrap;
-    padding-bottom: 22px; border-bottom: 1px solid var(--line);
+    padding: 20px; margin: -4px -4px 20px; border-radius: var(--r-md);
+    border: 1px solid color-mix(in srgb, var(--tone) 22%, var(--line));
+    background:
+      radial-gradient(110% 130% at 0% 0%, color-mix(in srgb, var(--tone) 13%, transparent), transparent 60%),
+      linear-gradient(150deg, color-mix(in srgb, var(--tone) 7%, var(--surface)), var(--surface) 70%);
+    --tone: var(--good);
   }
+  .verdict.v-warn { --tone: var(--warning); }
+  .verdict.v-crit { --tone: var(--critical); }
   .gauge { position: relative; width: 176px; height: 176px; flex: none; }
-  .gauge svg { transform: rotate(-90deg); }
+  .gauge svg { transform: rotate(-90deg); display: block; }
   .gauge-mid { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; }
   .gauge-mid .pct { font-size: 33px; font-weight: 680; letter-spacing: -.035em; line-height: 1.05; }
   .gauge-mid .pct small { font-size: 17px; font-weight: 600; }
   .gauge-mid .lbl { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: .09em; margin-top: 4px; }
   .vside { flex: 1; min-width: 230px; }
-  .vclass { font-size: 30px; font-weight: 680; letter-spacing: -.03em; line-height: 1.1; }
+  .vclass { font-size: 30px; font-weight: 680; letter-spacing: -.03em; line-height: 1.1; display: flex; align-items: center; gap: 10px; }
+  .vclass .ico { width: 26px; height: 26px; }
   .badges { display: flex; gap: 7px; flex-wrap: wrap; margin-top: 10px; }
-  .badge {
-    display: inline-flex; align-items: center; gap: 6px; padding: 5px 11px;
-    border-radius: 999px; font-size: 11.5px; font-weight: 650;
-  }
+  .badge { display: inline-flex; align-items: center; gap: 6px; padding: 5px 11px; border-radius: 999px; font-size: 11.5px; font-weight: 650; }
+  .badge .ico { width: 12px; height: 12px; }
   .probs { margin-top: 20px; display: grid; gap: 11px; }
   .prob { display: grid; grid-template-columns: 78px 1fr 54px; gap: 12px; align-items: center; font-size: 13px; }
-  .track { height: 7px; background: var(--plane-2); border-radius: 999px; overflow: hidden; }
+  .track { height: 7px; background: color-mix(in srgb, var(--ink) 8%, transparent); border-radius: 999px; overflow: hidden; }
   .track i { display: block; height: 100%; border-radius: 999px; background: var(--axis); transition: width .6s cubic-bezier(.2,.7,.3,1); }
-  .track.lead i { background: var(--series); }
+  .track.lead i { background: linear-gradient(90deg, var(--accent), var(--accent-2)); }
   .prob .val { text-align: right; color: var(--ink-2); font-variant-numeric: tabular-nums; font-weight: 550; }
 
-  .why { margin-top: 22px; }
   .why ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 9px; }
   .why li { display: flex; gap: 11px; font-size: 13px; align-items: flex-start; color: var(--ink-2); line-height: 1.5; }
-  .why .ico { flex: none; width: 16px; text-align: center; font-size: 11px; line-height: 1.65; }
+  .why li .ico { width: 15px; height: 15px; margin-top: 2px; }
   .flag { color: var(--critical); } .calm { color: var(--muted); }
   details { margin-top: 18px; }
   summary { font-size: 12px; color: var(--muted); cursor: pointer; user-select: none; }
@@ -293,39 +331,61 @@
   }
   .feat b { color: var(--ink); font-weight: 620; font-variant-numeric: tabular-nums; }
 
-  .blank {
-    display: grid; place-items: center; gap: 12px; min-height: 260px;
-    color: var(--muted); font-size: 13.5px; text-align: center; padding: 20px;
+  .blank { display: grid; place-items: center; gap: 14px; min-height: 260px; color: var(--muted); font-size: 13.5px; text-align: center; padding: 20px; }
+  .blank .ico { width: 38px; height: 38px; opacity: .3; }
+  .alert {
+    display: flex; gap: 10px; align-items: flex-start;
+    background: var(--critical-wash); color: var(--critical);
+    padding: 15px; border-radius: var(--r-md); font-size: 13px;
+    border: 1px solid color-mix(in srgb, var(--critical) 22%, transparent);
   }
-  .blank .big { font-size: 30px; opacity: .35; }
-  .alert { background: var(--critical-wash); color: var(--critical); padding: 15px; border-radius: var(--r-md); font-size: 13px; }
+  .alert .ico { width: 17px; height: 17px; flex: none; margin-top: 1px; }
 
-  /* ═══════════ Tableaux ═══════════ */
   .scroll { overflow-x: auto; margin: 0 -4px; padding: 0 4px; }
   table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  th {
-    text-align: left; font-size: 10.5px; text-transform: uppercase; letter-spacing: .07em;
-    color: var(--muted); font-weight: 700; padding: 0 12px 11px; white-space: nowrap;
-  }
+  th { text-align: left; font-size: 10.5px; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); font-weight: 700; padding: 0 12px 11px; white-space: nowrap; }
   td { padding: 11px 12px; border-top: 1px solid var(--line); white-space: nowrap; color: var(--ink-2); }
   tbody tr { transition: background .14s; }
   tbody tr:hover { background: var(--surface-2); }
   td.strong { color: var(--ink); font-weight: 600; }
   .num { text-align: right; font-variant-numeric: tabular-nums; }
   .pill { display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px; border-radius: 999px; font-size: 11.5px; font-weight: 650; }
+  .pill .ico { width: 11px; height: 11px; }
   .swatch { width: 9px; height: 9px; border-radius: 3px; display: inline-block; margin-right: 9px; }
 </style>
 </head>
 <body>
 
+<!-- ═══════ Jeu d'icônes bancaires (SVG, trait 1.8) ═══════ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <g id="g-shield"><path d="M12 2 4 6v6c0 5 3.4 8.9 8 10 4.6-1.1 8-5 8-10V6l-8-4Z"/><path d="M8.6 12.4 11 14.8l4.4-4.9"/></g>
+    <g id="g-bank"><path d="M3 10h18"/><path d="M12 3 3 7.5V10h18V7.5L12 3Z"/><path d="M6 10v7M10 10v7M14 10v7M18 10v7"/><path d="M3 21h18"/></g>
+    <g id="g-card"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="M2.5 10h19"/><path d="M6 14.5h4"/></g>
+    <g id="g-coins"><ellipse cx="12" cy="6.5" rx="7.5" ry="3.2"/><path d="M4.5 6.5v5c0 1.8 3.4 3.2 7.5 3.2s7.5-1.4 7.5-3.2v-5"/><path d="M4.5 11.5v5c0 1.8 3.4 3.2 7.5 3.2s7.5-1.4 7.5-3.2v-5"/></g>
+    <g id="g-users"><circle cx="9" cy="8" r="3.4"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 5.2a3.4 3.4 0 0 1 0 5.6"/><path d="M18 14.6a6.5 6.5 0 0 1 3.5 5.4"/></g>
+    <g id="g-alert"><path d="M12 3.5 2.8 19.5h18.4L12 3.5Z"/><path d="M12 10v4"/><path d="M12 17.2v.2"/></g>
+    <g id="g-pin"><path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11Z"/><circle cx="12" cy="10" r="2.6"/></g>
+    <g id="g-clock"><circle cx="12" cy="12" r="8.8"/><path d="M12 7v5.2l3.2 2"/></g>
+    <g id="g-pulse"><path d="M2.8 12.5h4l2.4-6 4 12 2.6-7.2 1.7 3.2h3.7"/></g>
+    <g id="g-chart"><path d="M3.5 20.5V10M9.8 20.5V4M16.2 20.5v-8M22 20.5h-20"/></g>
+    <g id="g-grid"><rect x="3.2" y="3.2" width="7.4" height="7.4" rx="1.6"/><rect x="13.4" y="3.2" width="7.4" height="7.4" rx="1.6"/><rect x="3.2" y="13.4" width="7.4" height="7.4" rx="1.6"/><rect x="13.4" y="13.4" width="7.4" height="7.4" rx="1.6"/></g>
+    <g id="g-sliders"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3"/><path d="M1.5 14h5M9.5 8h5M17.5 16h5"/></g>
+    <g id="g-target"><circle cx="12" cy="12" r="8.8"/><circle cx="12" cy="12" r="4.6"/><circle cx="12" cy="12" r=".6"/></g>
+    <g id="g-db"><ellipse cx="12" cy="5.6" rx="8" ry="3"/><path d="M4 5.6v12.8c0 1.7 3.6 3 8 3s8-1.3 8-3V5.6"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></g>
+    <g id="g-check"><path d="M20 6.5 9.5 17 4 11.5"/></g>
+    <g id="g-moon"><path d="M20.5 14.6A8.6 8.6 0 0 1 9.4 3.5a8.8 8.8 0 1 0 11.1 11.1Z"/></g>
+    <g id="g-receipt"><path d="M5 3.5h14v18l-2.3-1.6-2.4 1.6-2.3-1.6-2.4 1.6L7.3 21.5 5 21.5v-18Z"/><path d="M9 8.5h6M9 12.5h6"/></g>
+    <g id="g-trend"><path d="M2.5 16.5 9 10l4 4 8.5-8.5"/><path d="M15.5 5.5h6v6"/></g>
+    <g id="g-search"><circle cx="10.8" cy="10.8" r="7.3"/><path d="M16.2 16.2 21 21"/></g>
+  </defs>
+</svg>
+
 <div class="topbar">
   <div class="wrap">
     <div class="brand">
       <div class="mark">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 2 4 6v6c0 5 3.4 8.9 8 10 4.6-1.1 8-5 8-10V6l-8-4Z"/>
-          <path d="M8.5 12.5 11 15l4.5-5"/>
-        </svg>
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><use href="#g-shield"/></svg>
       </div>
       <div class="brand-txt">
         <b>Détection de Fraude Bancaire</b>
@@ -338,7 +398,9 @@
         <input id="apiBase" value="http://localhost:8000" aria-label="URL de l'API" spellcheck="false">
         <span id="apiStatus">…</span>
       </div>
-      <button class="ghost" id="themeBtn" title="Basculer clair / sombre" aria-label="Basculer le thème">◐</button>
+      <button class="ghost" id="themeBtn" title="Basculer clair / sombre" aria-label="Basculer le thème">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><use href="#g-moon"/></svg>
+      </button>
     </div>
   </div>
 </div>
@@ -346,9 +408,12 @@
 <div class="navrow">
   <div class="wrap">
     <div class="tabs" role="tablist">
-      <button role="tab" data-tab="data" aria-selected="true">Données</button>
-      <button role="tab" data-tab="model" aria-selected="false">Modèle</button>
-      <button role="tab" data-tab="predict" aria-selected="false">Analyse</button>
+      <button role="tab" data-tab="data" aria-selected="true">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><use href="#g-db"/></svg>Données</button>
+      <button role="tab" data-tab="model" aria-selected="false">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><use href="#g-target"/></svg>Modèle</button>
+      <button role="tab" data-tab="predict" aria-selected="false">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><use href="#g-search"/></svg>Analyse</button>
     </div>
     <div class="seg" role="group" aria-label="Choix du modèle">
       <button type="button" data-sc="scenario2" aria-pressed="true">Binaire</button>
@@ -362,67 +427,65 @@
   <!-- ══════════════ DONNÉES ══════════════ -->
   <section class="panel on" id="p-data">
     <div class="tiles" id="dataTiles">
-      <div class="sk sk-tile"></div><div class="sk sk-tile"></div>
-      <div class="sk sk-tile"></div><div class="sk sk-tile"></div>
+      <div class="sk sk-tile"></div><div class="sk sk-tile"></div><div class="sk sk-tile"></div><div class="sk sk-tile"></div>
     </div>
     <div class="grid2">
       <div class="card">
         <div class="card-head">
-          <h3>Répartition des transactions</h3>
-          <p>Étiquette attribuée à chaque opération du jeu de données</p>
+          <div class="head-ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><use href="#g-chart"/></svg></div>
+          <div><h3>Répartition des transactions</h3><p>Étiquette attribuée à chaque opération</p></div>
         </div>
-        <div class="chart-box"><svg id="cRepart" height="230"></svg><div class="tip" id="tRepart"></div></div>
+        <div class="chart-box"><svg class="plot" id="cRepart" height="230"></svg><div class="tip" id="tRepart"></div></div>
       </div>
       <div class="card">
         <div class="card-head">
-          <h3>Top 10 des localisations</h3>
-          <p>Nombre de transactions par ville</p>
+          <div class="head-ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><use href="#g-pin"/></svg></div>
+          <div><h3>Top 10 des localisations</h3><p>Nombre de transactions par ville</p></div>
         </div>
-        <div class="chart-box"><svg id="cVilles" height="230"></svg><div class="tip" id="tVilles"></div></div>
+        <div class="chart-box"><svg class="plot" id="cVilles" height="230"></svg><div class="tip" id="tVilles"></div></div>
       </div>
     </div>
     <div class="card">
       <div class="card-head">
-        <h3>Taux de fraude selon l'heure</h3>
-        <p>Part de transactions frauduleuses pour chaque heure — la plage nocturne est ombrée</p>
+        <div class="head-ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><use href="#g-clock"/></svg></div>
+        <div><h3>Taux de fraude selon l'heure</h3><p>Part de transactions frauduleuses par heure — la plage nocturne est ombrée</p></div>
       </div>
-      <div class="chart-box"><svg id="cHeure" height="220"></svg><div class="tip" id="tHeure"></div></div>
+      <div class="chart-box"><svg class="plot" id="cHeure" height="220"></svg><div class="tip" id="tHeure"></div></div>
     </div>
     <div class="card">
       <div class="card-head">
-        <h3>Montants par type de transaction</h3>
-        <p>Médiane, quartiles et étendue — échelle logarithmique</p>
+        <div class="head-ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><use href="#g-coins"/></svg></div>
+        <div><h3>Montants par type de transaction</h3><p>Médiane, quartiles et étendue — échelle logarithmique</p></div>
       </div>
-      <div class="chart-box"><svg id="cBox" height="260"></svg><div class="tip" id="tBox"></div></div>
+      <div class="chart-box"><svg class="plot" id="cBox" height="260"></svg><div class="tip" id="tBox"></div></div>
     </div>
   </section>
 
   <!-- ══════════════ MODÈLE ══════════════ -->
   <section class="panel" id="p-model">
     <div class="tiles" id="modelTiles">
-      <div class="sk sk-tile"></div><div class="sk sk-tile"></div>
-      <div class="sk sk-tile"></div><div class="sk sk-tile"></div>
+      <div class="sk sk-tile"></div><div class="sk sk-tile"></div><div class="sk sk-tile"></div><div class="sk sk-tile"></div>
     </div>
     <div class="grid2">
       <div class="card">
         <div class="card-head">
-          <h3>Matrice de confusion</h3>
-          <p id="capCM">Lignes : classe réelle · colonnes : prédiction du modèle</p>
+          <div class="head-ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><use href="#g-grid"/></svg></div>
+          <div><h3>Matrice de confusion</h3><p id="capCM">Lignes : classe réelle · colonnes : prédiction</p></div>
         </div>
-        <div class="chart-box"><svg id="cCM" height="250"></svg><div class="tip" id="tCM"></div></div>
+        <div class="chart-box"><svg class="plot" id="cCM" height="250"></svg><div class="tip" id="tCM"></div></div>
       </div>
       <div class="card">
         <div class="card-head">
-          <h3>Importance des variables</h3>
-          <p>Contribution de chaque variable à la décision</p>
+          <div class="head-ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><use href="#g-sliders"/></svg></div>
+          <div><h3>Importance des variables</h3><p>Contribution de chaque variable à la décision</p></div>
         </div>
-        <div class="chart-box"><svg id="cImp" height="250"></svg><div class="tip" id="tImp"></div></div>
+        <div class="chart-box"><svg class="plot" id="cImp" height="250"></svg><div class="tip" id="tImp"></div></div>
       </div>
     </div>
     <div class="card">
       <div class="card-head">
-        <h3>Précision et rappel par classe</h3>
-        <p>Mesurés sur les transactions les plus récentes, jamais vues à l'entraînement</p>
+        <div class="head-ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><use href="#g-target"/></svg></div>
+        <div><h3>Précision et rappel par classe</h3><p>Mesurés sur les transactions les plus récentes, jamais vues à l'entraînement</p></div>
       </div>
       <div class="scroll">
         <table>
@@ -438,37 +501,28 @@
   <section class="panel" id="p-predict">
     <div class="layout">
       <form class="card" id="txForm">
-        <p class="eyebrow">Transaction à évaluer</p>
-        <div class="field">
-          <label for="id_client">Identifiant client</label>
-          <input id="id_client" value="C002" required spellcheck="false">
-        </div>
-        <div class="field">
-          <label for="type_transaction">Type de transaction</label>
-          <select id="type_transaction"></select>
-        </div>
-        <div class="field">
-          <label for="status_operation">Statut de l'opération</label>
-          <select id="status_operation"></select>
-        </div>
-        <div class="field">
-          <label for="localisation">Localisation</label>
-          <select id="localisation"></select>
-        </div>
-        <div class="field">
-          <label for="date">Date et heure</label>
-          <input id="date" type="datetime-local" required>
-        </div>
-        <div class="field">
-          <label for="montant">Montant (FCFA)</label>
-          <input id="montant" type="number" min="1" step="1" value="50000" required>
-        </div>
+        <p class="eyebrow">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><use href="#g-card"/></svg>
+          Transaction à évaluer
+        </p>
+        <div class="field"><label for="id_client">Identifiant client</label><input id="id_client" value="C002" required spellcheck="false"></div>
+        <div class="field"><label for="type_transaction">Type de transaction</label><select id="type_transaction"></select></div>
+        <div class="field"><label for="status_operation">Statut de l'opération</label><select id="status_operation"></select></div>
+        <div class="field"><label for="localisation">Localisation</label><select id="localisation"></select></div>
+        <div class="field"><label for="date">Date et heure</label><input id="date" type="datetime-local" required></div>
+        <div class="field"><label for="montant">Montant (FCFA)</label><input id="montant" type="number" min="1" step="1" value="50000" required></div>
         <div class="presets">
-          <button type="button" class="preset" data-preset="normale">Achat courant</button>
-          <button type="button" class="preset" data-preset="nuit">Retrait nocturne</button>
-          <button type="button" class="preset" data-preset="fraude">Scénario fraude</button>
+          <button type="button" class="preset" data-preset="normale">
+            <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><use href="#g-receipt"/></svg>Achat courant</button>
+          <button type="button" class="preset" data-preset="nuit">
+            <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><use href="#g-moon"/></svg>Retrait nocturne</button>
+          <button type="button" class="preset" data-preset="fraude">
+            <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><use href="#g-alert"/></svg>Scénario fraude</button>
         </div>
-        <button type="submit" class="btn-main" id="submitBtn">Analyser la transaction</button>
+        <button type="submit" class="btn-main" id="submitBtn">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#g-shield"/></svg>
+          <span id="btnTxt">Analyser la transaction</span>
+        </button>
         <p class="note">
           Le modèle mémorise le comportement de chaque client. Enchaînez plusieurs
           transactions sur le même identifiant pour voir le risque évoluer, ou changez
@@ -478,28 +532,43 @@
 
       <div>
         <div class="tiles" id="tiles" hidden>
-          <div class="tile" id="klVerdict"><div class="k">Verdict</div><div class="v" id="tVerdict">—</div><div class="n" id="tRisk">—</div></div>
-          <div class="tile"><div class="k">Écart au comportement</div><div class="v" id="tEcart">—</div><div class="n">écarts-types vs habitude</div></div>
-          <div class="tile"><div class="k">Historique client</div><div class="v" id="tHist">—</div><div class="n" id="tMoy">—</div></div>
-          <div class="tile" id="klFlags"><div class="k">Signaux d'alerte</div><div class="v" id="tFlags">—</div><div class="n">critères déclenchés</div></div>
+          <div class="tile" id="klVerdict">
+            <div class="tile-top"><div class="k">Verdict</div><div class="tile-ico" id="icoVerdict"></div></div>
+            <div class="v" id="tVerdict">—</div><div class="n" id="tRisk">—</div>
+          </div>
+          <div class="tile t-brand">
+            <div class="tile-top"><div class="k">Écart comportement</div><div class="tile-ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><use href="#g-trend"/></svg></div></div>
+            <div class="v" id="tEcart">—</div><div class="n">écarts-types vs habitude</div>
+          </div>
+          <div class="tile">
+            <div class="tile-top"><div class="k">Historique client</div><div class="tile-ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><use href="#g-clock"/></svg></div></div>
+            <div class="v" id="tHist">—</div><div class="n" id="tMoy">—</div>
+          </div>
+          <div class="tile" id="klFlags">
+            <div class="tile-top"><div class="k">Signaux d'alerte</div><div class="tile-ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><use href="#g-alert"/></svg></div></div>
+            <div class="v" id="tFlags">—</div><div class="n">critères déclenchés</div>
+          </div>
         </div>
+
         <div class="card" id="resultCard">
           <div class="blank" id="resultBody">
-            <div class="big">◔</div>
+            <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><use href="#g-shield"/></svg>
             <div>Renseignez une transaction, puis lancez l'analyse.</div>
           </div>
         </div>
+
         <div class="card" id="chartCard" style="display:none">
           <div class="card-head">
-            <h3>Évolution du risque</h3>
-            <p>Probabilité de fraude au fil des transactions du client <b id="chartClient"></b></p>
+            <div class="head-ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><use href="#g-pulse"/></svg></div>
+            <div><h3>Évolution du risque</h3><p>Probabilité de fraude au fil des transactions du client <b id="chartClient"></b></p></div>
           </div>
-          <div class="chart-box"><svg id="chart" height="188"></svg><div class="tip" id="tip"></div></div>
+          <div class="chart-box"><svg class="plot" id="chart" height="188"></svg><div class="tip" id="tip"></div></div>
         </div>
+
         <div class="card" id="historyCard" hidden>
           <div class="card-head">
-            <h3>Historique du client <span id="historyClient"></span></h3>
-            <p>Transactions envoyées depuis cette page</p>
+            <div class="head-ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><use href="#g-receipt"/></svg></div>
+            <div><h3>Historique du client <span id="historyClient"></span></h3><p>Transactions envoyées depuis cette page</p></div>
           </div>
           <div class="scroll">
             <table>
@@ -524,6 +593,9 @@ const apiBase = () => $('apiBase').value.trim().replace(/\/+$/, '');
 // fichier local (file://), elle vise le serveur de developpement.
 $('apiBase').value = location.protocol.startsWith('http') ? location.origin : 'http://localhost:8000';
 
+// Icone inline reutilisable (le sprite <defs> est defini en haut du document)
+const ic = (n, w = 1.9) => `<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"><use href="#g-${n}"/></svg>`;
+
 let scenario = 'scenario2';
 let rapport = null;
 const historique = {};
@@ -532,9 +604,9 @@ const cle = () => `${scenario}|${$('id_client').value}`;
 // Palette de statut : jamais portee par la couleur seule — toujours accompagnee
 // d'une icone et d'un libelle.
 const STATUT = {
-  'FAIBLE': { col: 'var(--good)', wash: 'var(--good-wash)', ico: '✓', cls: 't-good' },
-  'MOYEN':  { col: 'var(--warning)', wash: 'var(--warning-wash)', ico: '!', cls: 't-warn' },
-  'ÉLEVÉ':  { col: 'var(--critical)', wash: 'var(--critical-wash)', ico: '▲', cls: 't-crit' },
+  'FAIBLE': { col: 'var(--good)', wash: 'var(--good-wash)', ico: 'check', tile: 't-good', vd: '' },
+  'MOYEN':  { col: 'var(--warning)', wash: 'var(--warning-wash)', ico: 'alert', tile: 't-warn', vd: 'v-warn' },
+  'ÉLEVÉ':  { col: 'var(--critical)', wash: 'var(--critical-wash)', ico: 'alert', tile: 't-crit', vd: 'v-crit' },
 };
 const st = n => STATUT[n] || STATUT['FAIBLE'];
 const COUL_CLASSE = { Normal: 'var(--good)', Suspect: 'var(--warning)', Fraude: 'var(--critical)' };
@@ -554,9 +626,6 @@ function survol(svg, tipEl) {
   svg.addEventListener('mouseleave', () => { tipEl.style.opacity = 0; });
 }
 
-// ---------------------------------------------------------------------------
-// Onglets & theme
-// ---------------------------------------------------------------------------
 document.querySelectorAll('.tabs button').forEach(b => b.addEventListener('click', () => {
   document.querySelectorAll('.tabs button').forEach(x => x.setAttribute('aria-selected', x === b));
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('on'));
@@ -626,7 +695,8 @@ async function chargerRapport() {
     dessinerModele();
   } catch {
     rapport = null;
-    $('dataTiles').innerHTML = `<div class="alert" style="grid-column:1/-1">Rapport indisponible — l'API doit être accessible.</div>`;
+    const msg = `<div class="alert" style="grid-column:1/-1">${ic('alert')}<span>Rapport indisponible — l'API doit être accessible.</span></div>`;
+    $('dataTiles').innerHTML = msg;
     $('modelTiles').innerHTML = '';
   }
 }
@@ -634,7 +704,11 @@ async function chargerRapport() {
 // ---------------------------------------------------------------------------
 // Onglet DONNEES
 // ---------------------------------------------------------------------------
-const tuile = (k, v, n, cls = '') => `<div class="tile ${cls}"><div class="k">${k}</div><div class="v">${v}</div><div class="n">${n}</div></div>`;
+const tuile = (k, v, n, icone, cls = '') =>
+  `<div class="tile ${cls}">
+     <div class="tile-top"><div class="k">${k}</div><div class="tile-ico">${ic(icone)}</div></div>
+     <div class="v">${v}</div><div class="n">${n}</div>
+   </div>`;
 
 function dessinerDonnees() {
   if (!rapport) return;
@@ -642,10 +716,10 @@ function dessinerDonnees() {
   const fraudes = d.repartition['Fraude'] || 0;
 
   $('dataTiles').innerHTML =
-    tuile('Transactions', nf.format(d.n_transactions), `${d.periode[0]} → ${d.periode[1]}`) +
-    tuile('Fraudes', nf.format(fraudes), pc(fraudes / d.n_transactions) + ' du total', 't-crit') +
-    tuile('Clients', nf.format(d.n_clients), `${d.n_villes} villes couvertes`) +
-    tuile('Montant médian', nf.format(Math.round(d.montant_median)), 'FCFA par transaction');
+    tuile('Transactions', nf.format(d.n_transactions), `${d.periode[0]} → ${d.periode[1]}`, 'card') +
+    tuile('Fraudes', nf.format(fraudes), pc(fraudes / d.n_transactions) + ' du total', 'alert', 't-crit') +
+    tuile('Clients', nf.format(d.n_clients), `${d.n_villes} villes couvertes`, 'users', 't-brand') +
+    tuile('Montant médian', nf.format(Math.round(d.montant_median)), 'FCFA par transaction', 'coins');
 
   // --- Repartition des classes
   {
@@ -654,7 +728,7 @@ function dessinerDonnees() {
     const cls = Object.keys(d.repartition);
     const max = Math.max(...Object.values(d.repartition));
     const pas = (W - M.l - M.r) / cls.length;
-    const bw = Math.min(78, pas - 22);
+    const bw = Math.min(76, pas - 24);
     svg.setAttribute('height', H);
     svg.innerHTML = cls.map((c, i) => {
       const v = d.repartition[c];
@@ -698,8 +772,8 @@ function dessinerDonnees() {
     const y = v => M.t + ih - (v / max) * ih;
     const nuit = h => h >= 22 || h <= 5;
 
-    const bandes = `<rect x="${M.l}" y="${M.t}" width="${(6 / 24) * iw}" height="${ih}" fill="var(--critical)" opacity=".055" rx="4"/>
-      <rect x="${M.l + (22 / 24) * iw}" y="${M.t}" width="${(2 / 24) * iw}" height="${ih}" fill="var(--critical)" opacity=".055" rx="4"/>
+    const bandes = `<rect x="${M.l}" y="${M.t}" width="${(6 / 24) * iw}" height="${ih}" fill="var(--critical)" opacity=".06" rx="5"/>
+      <rect x="${M.l + (22 / 24) * iw}" y="${M.t}" width="${(2 / 24) * iw}" height="${ih}" fill="var(--critical)" opacity=".06" rx="5"/>
       <text x="${M.l + 8}" y="${M.t - 9}" font-size="10.5" fill="var(--muted)">nuit · 22 h – 5 h</text>`;
     const ticks = [0, max / 2, max].map(v =>
       `<line x1="${M.l}" x2="${W - M.r}" y1="${y(v)}" y2="${y(v)}" stroke="var(--grid)"/>
@@ -767,11 +841,11 @@ function dessinerModele() {
   const m = rapport.metriques, cls = m.classes, fr = m.par_classe['Fraude'];
 
   $('modelTiles').innerHTML =
-    tuile('Exactitude', pc(m.accuracy), 'sur le jeu de test', 't-good') +
-    tuile('F1 macro', m.f1_macro.toFixed(3).replace('.', ','), 'moyenne des classes') +
+    tuile('Exactitude', pc(m.accuracy), 'sur le jeu de test', 'check', 't-good') +
+    tuile('F1 macro', m.f1_macro.toFixed(3).replace('.', ','), 'moyenne des classes', 'pulse', 't-brand') +
     tuile('Rappel fraude', pc(fr.recall), `${Math.round(fr.recall * fr.support)} / ${fr.support} fraudes détectées`,
-          fr.recall >= .8 ? 't-good' : 't-warn') +
-    tuile('Jeu de test', nf.format(m.n_test), `entraîné sur ${nf.format(m.n_train)}`);
+          'shield', fr.recall >= .8 ? 't-good' : 't-warn') +
+    tuile('Jeu de test', nf.format(m.n_test), `entraîné sur ${nf.format(m.n_train)}`, 'db');
 
   $('protoNote').textContent =
     `Protocole : découpe chronologique — le modèle est entraîné sur les transactions antérieures ` +
@@ -888,7 +962,8 @@ function afficher(data) {
   const nFlags = raisons.filter(r => r.grave).length;
 
   $('tiles').hidden = false;
-  $('klVerdict').className = 'tile ' + s.cls;
+  $('klVerdict').className = 'tile ' + s.tile;
+  $('icoVerdict').innerHTML = ic(s.ico);
   $('tVerdict').textContent = data.classe_predite;
   $('tVerdict').style.color = s.col;
   $('tRisk').textContent = `risque ${data.niveau_risque}`;
@@ -905,15 +980,15 @@ function afficher(data) {
       <span class="track ${c === data.classe_predite ? 'lead' : ''}"><i style="width:${(v * 100).toFixed(1)}%"></i></span>
       <span class="val">${pc(v)}</span></div>`).join('');
   const listeRaisons = raisons.map(r =>
-    `<li><span class="ico ${r.grave ? 'flag' : 'calm'}">${r.grave ? '▲' : '•'}</span><span>${esc(r.t)}</span></li>`).join('');
+    `<li><span class="${r.grave ? 'flag' : 'calm'}">${ic(r.grave ? 'alert' : 'check', 2)}</span><span>${esc(r.t)}</span></li>`).join('');
   const feats = Object.keys(LIB).map(k => `<div class="feat"><span>${LIB[k]}</span><b>${fmt(k, f[k])}</b></div>`).join('');
 
   $('resultBody').className = '';
   $('resultBody').innerHTML = `
-    <div class="verdict">
+    <div class="verdict ${s.vd}">
       <div class="gauge">
         <svg width="176" height="176" aria-hidden="true">
-          <circle cx="88" cy="88" r="${R}" fill="none" stroke="var(--plane-2)" stroke-width="13"/>
+          <circle cx="88" cy="88" r="${R}" fill="none" stroke="color-mix(in srgb, var(--ink) 9%, transparent)" stroke-width="13"/>
           <circle cx="88" cy="88" r="${R}" fill="none" stroke="${s.col}" stroke-width="13"
                   stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C * (1 - p)}"
                   style="transition:stroke-dashoffset .7s cubic-bezier(.2,.7,.3,1)"/>
@@ -924,16 +999,16 @@ function afficher(data) {
         </div>
       </div>
       <div class="vside">
-        <div class="vclass" style="color:${s.col}">${esc(data.classe_predite)}</div>
+        <div class="vclass" style="color:${s.col}">${ic(s.ico, 2.2)}${esc(data.classe_predite)}</div>
         <div class="badges">
-          <span class="badge" style="background:${s.wash};color:${s.col}">${s.ico} Risque ${data.niveau_risque}</span>
-          ${data.alerte ? `<span class="badge" style="background:var(--critical-wash);color:var(--critical)">⚑ Alerte</span>` : ''}
+          <span class="badge" style="background:${s.wash};color:${s.col}">${ic(s.ico)} Risque ${data.niveau_risque}</span>
+          ${data.alerte ? `<span class="badge" style="background:var(--critical-wash);color:var(--critical)">${ic('alert')} Alerte</span>` : ''}
         </div>
         <div class="probs">${probs}</div>
       </div>
     </div>
     <div class="why">
-      <p class="eyebrow">Pourquoi ce verdict</p>
+      <p class="eyebrow">${ic('search')} Pourquoi ce verdict</p>
       <ul>${listeRaisons}</ul>
       <details><summary>Voir les 16 variables transmises au modèle</summary><div class="feats">${feats}</div></details>
     </div>`;
@@ -960,7 +1035,7 @@ function dessinerCourbe() {
     <line x1="${M.l}" x2="${W - M.r}" y1="${y(0)}" y2="${y(0)}" stroke="var(--grid)"/>
     <text x="${M.l - 10}" y="${y(0) + 4}" text-anchor="end" font-size="10" fill="var(--muted)">0 %</text>
     ${seuil(0.3, '30 %')}${seuil(0.7, '70 %')}
-    <polygon points="${aire}" fill="var(--series)" opacity=".08"/>
+    <polygon points="${aire}" fill="var(--series)" opacity=".09"/>
     <polyline points="${pts.map((e, i) => `${x(i)},${y(val(e))}`).join(' ')}" fill="none"
               stroke="var(--series)" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>
     ${pts.map((e, i) => `<g data-tip="<b>${pc(val(e))}</b> — ${esc(e.data.classe_predite)}<div class='t-sub'>Transaction ${i + 1} · ${nf.format(e.payload.montant)} FCFA</div>">
@@ -987,7 +1062,7 @@ function dessinerTable() {
     return `<tr>
       <td>${i + 1}</td><td>${d}</td><td>${esc(e.payload.type_transaction)}</td><td>${esc(e.payload.localisation)}</td>
       <td class="num strong">${nf.format(e.payload.montant)}</td>
-      <td><span class="pill" style="background:${s.wash};color:${s.col}">${s.ico} ${esc(e.data.classe_predite)}</span></td>
+      <td><span class="pill" style="background:${s.wash};color:${s.col}">${ic(s.ico)} ${esc(e.data.classe_predite)}</span></td>
       <td class="num strong">${pc(p)}</td></tr>`;
   }).join('');
 }
@@ -999,7 +1074,7 @@ function reinitialiser() {
   if (pts?.length) { afficher(pts[pts.length - 1].data); return; }
   $('tiles').hidden = true;
   $('resultBody').className = 'blank';
-  $('resultBody').innerHTML = `<div class="big">◔</div><div>Renseignez une transaction, puis lancez l'analyse.</div>`;
+  $('resultBody').innerHTML = `${ic('shield', 1.5)}<div>Renseignez une transaction, puis lancez l'analyse.</div>`;
 }
 
 const PRESETS = {
@@ -1027,7 +1102,7 @@ $('txForm').addEventListener('submit', async ev => {
   ev.preventDefault();
   const btn = $('submitBtn');
   btn.disabled = true;
-  btn.textContent = 'Analyse en cours…';
+  $('btnTxt').textContent = 'Analyse en cours…';
   const payload = {
     id_client: $('id_client').value,
     type_transaction: $('type_transaction').value,
@@ -1047,12 +1122,12 @@ $('txForm').addEventListener('submit', async ev => {
   } catch (err) {
     $('tiles').hidden = true;
     $('resultBody').className = '';
-    $('resultBody').innerHTML = `<div class="alert"><b>Impossible d'analyser la transaction.</b><br>${esc(err.message)}<br><br>
-      Vérifiez que l'API est accessible à l'adresse indiquée en haut de la page.</div>`;
+    $('resultBody').innerHTML = `<div class="alert">${ic('alert')}<div><b>Impossible d'analyser la transaction.</b><br>${esc(err.message)}<br><br>
+      Vérifiez que l'API est accessible à l'adresse indiquée en haut de la page.</div></div>`;
     verifierApi();
   } finally {
     btn.disabled = false;
-    btn.textContent = 'Analyser la transaction';
+    $('btnTxt').textContent = 'Analyser la transaction';
   }
 });
 
